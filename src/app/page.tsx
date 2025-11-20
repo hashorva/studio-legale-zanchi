@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import Link from "next/link";
 import { servizi } from "@/lib/services";
+import ChatWidget from "@/components/ChatWidget";
 
 export default function Home() {
   return (
@@ -74,6 +75,9 @@ export default function Home() {
           </Button>
         </div>
       </section>
+
+      {/* Chat Widget */}
+      <ChatWidget />
     </div>
   );
 }
