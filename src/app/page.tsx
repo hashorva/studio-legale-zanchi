@@ -4,6 +4,8 @@ import { Card, CardContent } from "@/components/ui/card";
 import Link from "next/link";
 import { servizi } from "@/lib/services";
 import ChatWidget from "@/components/ChatWidget";
+import InlineChatBox from "@/components/InlineChatBox";
+import ChatModal from "@/components/ChatModal";
 
 export default function Home() {
   return (
@@ -38,6 +40,12 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* Inline Chat Box */}
+      <InlineChatBox />
+
+      {/* Chat Modal (renders when opened) */}
+      <ChatModal />
 
       {/* Services Section */}
       <section className="mb-20">
