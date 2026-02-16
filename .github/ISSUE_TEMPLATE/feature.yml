@@ -51,17 +51,3 @@ body:
         - [ ] No console errors
     validations:
       required: true
-
-  - type: dropdown
-    id: area
-    attributes:
-      label: Component Area
-      description: Which part of the site?
-      options:
-        - Header
-        - Hero
-        - Footer
-        - Services
-        - Homepage
-        - Chat
-        - Other
