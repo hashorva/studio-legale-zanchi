@@ -3,29 +3,60 @@ description: Code cleanup or refactoring task
 title: "[Cleanup]: "
 labels: ["cleanup"]
 body:
-  - type: textarea
-    id: goal
+  - type: markdown
     attributes:
-      label: Goal
-      description: What are we cleaning up or refactoring?
-      placeholder: "Remove redundant chat components, consolidate into single ChatWidget"
+      value: |
+        ## Cleanup / Refactor Task
+        Use this template for code cleanup, refactoring, or removing redundant code.
+
+  - type: input
+    id: summary
+    attributes:
+      label: Summary
+      description: Brief one-line description (this will be added to the title)
+      placeholder: "e.g., Remove redundant chat components"
     validations:
       required: true
 
   - type: textarea
+    id: context
+    attributes:
+      label: Context
+      description: Why is this cleanup needed? What problem does it solve?
+      placeholder: "We have 3 chat components doing the same thing, causing confusion and maintenance overhead..."
+    validations:
+      required: false
+
+  - type: checkboxes
     id: tasks
     attributes:
       label: Tasks
-      value: |
-        - [ ] Task 1
-        - [ ] Task 2
-        - [ ] Task 3
+      description: Check off tasks as you complete them
+      options:
+        - label: Delete style-picker page
+        - label: Consolidate chat components (keep only ChatWidget)
+        - label: Update services.ts structure (enhanced fields)
+        - label: Add color palette to globals.css
+        - label: Update metadata template in layout.tsx
 
-  - type: textarea
+  - type: checkboxes
     id: acceptance
     attributes:
       label: Acceptance Criteria
-      value: |
-        - [ ] No duplicate code
-        - [ ] All tests pass
-        - [ ] No console errors
+      description: How do we know this is done?
+      options:
+        - label: No duplicate chat components
+        - label: Color palette from Canvas available as Tailwind classes
+        - label: SEO metadata template configured
+        - label: services.ts has icon, shortDescription, longDescription fields
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Priority
+      options:
+        - Critical (must have for launch)
+        - Enhancement (nice to have)
+      default: 0
+    validations:
+      required: true

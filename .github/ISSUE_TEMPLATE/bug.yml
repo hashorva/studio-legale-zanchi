@@ -7,14 +7,23 @@ body:
     attributes:
       value: |
         ## Bug Report
-        Something isn't working as expected
+        Something isn't working as expected.
+
+  - type: input
+    id: summary
+    attributes:
+      label: Bug Summary
+      description: One-line description of the bug
+      placeholder: "Header overlaps hero section on mobile"
+    validations:
+      required: true
 
   - type: textarea
     id: description
     attributes:
-      label: Describe the bug
-      description: What's happening?
-      placeholder: "The header overlaps the hero section on mobile..."
+      label: What's happening?
+      description: Detailed description of the bug
+      placeholder: "When I scroll on iPhone, the header stays fixed but covers the top of the hero section..."
     validations:
       required: true
 
@@ -22,20 +31,34 @@ body:
     id: steps
     attributes:
       label: Steps to reproduce
+      description: How can we reproduce this bug?
       value: |
         1. Go to '...'
         2. Click on '...'
         3. Scroll to '...'
         4. See error
+    validations:
+      required: true
 
   - type: textarea
     id: expected
     attributes:
       label: Expected behavior
       description: What should happen instead?
+      placeholder: "The header should stay below the top of the viewport..."
 
   - type: input
     id: device
     attributes:
       label: Device/Browser
-      placeholder: "iPhone 14 Pro / Safari, Chrome on Mac, etc."
+      description: Where did you see this bug?
+      placeholder: "iPhone 14 Pro / Safari 17, Chrome 120 on Mac"
+    validations:
+      required: true
+
+  - type: input
+    id: url
+    attributes:
+      label: Page URL
+      description: Which page has the bug?
+      placeholder: "https://studiolegalezanchi.com/"
