@@ -6,8 +6,7 @@ body:
   - type: markdown
     attributes:
       value: |
-        ## Cleanup / Refactor Task
-        Remove redundant code, refactor for maintainability, or fix technical debt.
+        💡 Remove redundant code, consolidate duplicates, or refactor for better maintainability.
 
   - type: textarea
     id: description

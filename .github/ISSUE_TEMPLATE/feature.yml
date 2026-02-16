@@ -6,8 +6,7 @@ body:
   - type: markdown
     attributes:
       value: |
-        ## Feature / Component
-        Build a new component or feature (Header, Hero, Services, etc.)
+        💡 Building a new component? Describe what it does, reference the Canvas design, and break it into tasks.
 
   - type: input
     id: component

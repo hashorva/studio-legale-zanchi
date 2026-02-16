@@ -6,8 +6,7 @@ body:
   - type: markdown
     attributes:
       value: |
-        ## Bug Report
-        Something isn't working as expected.
+        🐛 Help us fix this! Describe what's broken, how to reproduce it, and what device/browser you're using.
 
   - type: textarea
     id: description
