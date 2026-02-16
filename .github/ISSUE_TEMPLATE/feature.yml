@@ -8,15 +8,6 @@ body:
       value: |
         💡 Building a new component? Describe what it does, reference the Canvas design, and break it into tasks.
 
-  - type: input
-    id: component
-    attributes:
-      label: Component Name
-      description: What are you building?
-      placeholder: "e.g., Header Component (Mobile-First)"
-    validations:
-      required: true
-
   - type: textarea
     id: description
     attributes:
