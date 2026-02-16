@@ -7,56 +7,39 @@ body:
     attributes:
       value: |
         ## Cleanup / Refactor Task
-        Use this template for code cleanup, refactoring, or removing redundant code.
+        Remove redundant code, refactor for maintainability, or fix technical debt.
 
-  - type: input
-    id: summary
+  - type: textarea
+    id: description
     attributes:
-      label: Summary
-      description: Brief one-line description (this will be added to the title)
-      placeholder: "e.g., Remove redundant chat components"
+      label: Description
+      description: What are we cleaning up and why?
+      placeholder: "We have 3 chat components doing the same thing, causing confusion. Consolidate to just ChatWidget."
     validations:
       required: true
 
   - type: textarea
-    id: context
-    attributes:
-      label: Context
-      description: Why is this cleanup needed? What problem does it solve?
-      placeholder: "We have 3 chat components doing the same thing, causing confusion and maintenance overhead..."
-    validations:
-      required: false
-
-  - type: checkboxes
     id: tasks
     attributes:
       label: Tasks
-      description: Check off tasks as you complete them
-      options:
-        - label: Delete style-picker page
-        - label: Consolidate chat components (keep only ChatWidget)
-        - label: Update services.ts structure (enhanced fields)
-        - label: Add color palette to globals.css
-        - label: Update metadata template in layout.tsx
+      description: Specific tasks to complete
+      placeholder: |
+        - [ ] Delete unnecessary files
+        - [ ] Consolidate duplicate components
+        - [ ] Update imports
+        - [ ] Test that nothing broke
+    validations:
+      required: true
 
-  - type: checkboxes
+  - type: textarea
     id: acceptance
     attributes:
       label: Acceptance Criteria
-      description: How do we know this is done?
-      options:
-        - label: No duplicate chat components
-        - label: Color palette from Canvas available as Tailwind classes
-        - label: SEO metadata template configured
-        - label: services.ts has icon, shortDescription, longDescription fields
-
-  - type: dropdown
-    id: priority
-    attributes:
-      label: Priority
-      options:
-        - Critical (must have for launch)
-        - Enhancement (nice to have)
-      default: 0
+      description: Check these off as you verify them
+      placeholder: |
+        - [ ] No duplicate code
+        - [ ] All imports updated
+        - [ ] No console errors
+        - [ ] Site functions correctly
     validations:
       required: true

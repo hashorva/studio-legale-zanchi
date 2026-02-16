@@ -9,21 +9,12 @@ body:
         ## Bug Report
         Something isn't working as expected.
 
-  - type: input
-    id: summary
-    attributes:
-      label: Bug Summary
-      description: One-line description of the bug
-      placeholder: "Header overlaps hero section on mobile"
-    validations:
-      required: true
-
   - type: textarea
     id: description
     attributes:
       label: What's happening?
-      description: Detailed description of the bug
-      placeholder: "When I scroll on iPhone, the header stays fixed but covers the top of the hero section..."
+      description: Describe the bug
+      placeholder: "The header overlaps the hero section on mobile devices..."
     validations:
       required: true
 
@@ -32,11 +23,10 @@ body:
     attributes:
       label: Steps to reproduce
       description: How can we reproduce this bug?
-      value: |
-        1. Go to '...'
-        2. Click on '...'
-        3. Scroll to '...'
-        4. See error
+      placeholder: |
+        1. Open site on iPhone
+        2. Scroll down
+        3. See header overlap
     validations:
       required: true
 
@@ -45,20 +35,13 @@ body:
     attributes:
       label: Expected behavior
       description: What should happen instead?
-      placeholder: "The header should stay below the top of the viewport..."
+      placeholder: "The header should stay at the top without overlapping content"
 
   - type: input
     id: device
     attributes:
       label: Device/Browser
       description: Where did you see this bug?
-      placeholder: "iPhone 14 Pro / Safari 17, Chrome 120 on Mac"
+      placeholder: "iPhone 14 Pro / Safari 17"
     validations:
       required: true
-
-  - type: input
-    id: url
-    attributes:
-      label: Page URL
-      description: Which page has the bug?
-      placeholder: "https://studiolegalezanchi.com/"

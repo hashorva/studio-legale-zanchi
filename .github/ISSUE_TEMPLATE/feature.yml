@@ -7,13 +7,13 @@ body:
     attributes:
       value: |
         ## Feature / Component
-        Use this template for new components or features (Header, Hero, Services, etc.)
+        Build a new component or feature (Header, Hero, Services, etc.)
 
   - type: input
     id: component
     attributes:
       label: Component Name
-      description: What are you building? (this will be added to the title)
+      description: What are you building?
       placeholder: "e.g., Header Component (Mobile-First)"
     validations:
       required: true
@@ -23,51 +23,42 @@ body:
     attributes:
       label: Description
       description: What does this component do? Why do we need it?
-      placeholder: "The header provides site navigation and branding. It should match the Canvas design with mobile hamburger menu and desktop horizontal nav."
+      placeholder: "The header provides navigation and branding. Should match Canvas design with mobile hamburger menu and desktop horizontal nav."
     validations:
       required: true
 
-  - type: checkboxes
+  - type: textarea
     id: tasks
     attributes:
       label: Tasks
-      description: Modify this list for your specific component
-      options:
-        - label: Build mobile layout (375px)
-        - label: Build desktop layout (1024px+)
-        - label: Add responsive breakpoints
-        - label: Match Canvas design (colors, spacing, typography)
-        - label: Implement accessibility (ARIA labels, keyboard nav)
-        - label: Test on real devices
+      description: Specific tasks to complete
+      placeholder: |
+        - [ ] Build mobile layout (375px)
+        - [ ] Build desktop layout (1024px+)
+        - [ ] Match Canvas design
+        - [ ] Implement accessibility
+        - [ ] Test on real devices
+    validations:
+      required: true
 
   - type: input
     id: design_reference
     attributes:
       label: Design Reference
-      description: Link to Canvas screenshot or Figma
+      description: Link to Canvas screenshot or design file
       placeholder: "Canvas screenshot - Header section"
 
-  - type: checkboxes
+  - type: textarea
     id: acceptance
     attributes:
       label: Acceptance Criteria
-      description: How do we know this is done?
-      options:
-        - label: Works perfectly on mobile (375px)
-        - label: Scales smoothly to desktop (1920px)
-        - label: Matches Canvas design exactly
-        - label: Accessible (WCAG AA compliant)
-        - label: No console errors
-        - label: Passes manual testing
-
-  - type: dropdown
-    id: priority
-    attributes:
-      label: Priority
-      options:
-        - Critical (must have for launch)
-        - Enhancement (nice to have)
-      default: 0
+      description: Check these off as you verify them
+      placeholder: |
+        - [ ] Works on mobile (375px)
+        - [ ] Works on desktop (1920px)
+        - [ ] Matches Canvas design
+        - [ ] Accessible (WCAG AA)
+        - [ ] No console errors
     validations:
       required: true
 
@@ -82,5 +73,5 @@ body:
         - Footer
         - Services
         - Homepage
+        - Chat
         - Other
-      default: 5
