@@ -1,0 +1,83 @@
+name: Feature / Component
+description: New component or feature implementation
+title: "[Feature]: "
+labels: ["frontend"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Feature Request
+        Use this template for new components or features (e.g., Header, Hero, Services section)
+
+  - type: input
+    id: component
+    attributes:
+      label: Component Name
+      description: What component are you building?
+      placeholder: "e.g., Header, Hero Section, Footer"
+    validations:
+      required: true
+
+  - type: textarea
+    id: goal
+    attributes:
+      label: Goal
+      description: What is the purpose of this component?
+      placeholder: "Build header matching Canvas design, mobile-first responsive"
+    validations:
+      required: true
+
+  - type: textarea
+    id: tasks
+    attributes:
+      label: Tasks
+      description: List the specific tasks to complete
+      value: |
+        - [ ] Task 1
+        - [ ] Task 2
+        - [ ] Task 3
+    validations:
+      required: true
+
+  - type: textarea
+    id: design_reference
+    attributes:
+      label: Design Reference
+      description: Link to Canvas screenshot or design specs
+      placeholder: "Canvas screenshot: Header section"
+
+  - type: textarea
+    id: acceptance_criteria
+    attributes:
+      label: Acceptance Criteria
+      description: How do we know this is done?
+      value: |
+        - [ ] Works on mobile (375px)
+        - [ ] Scales to desktop (1920px)
+        - [ ] Matches Canvas design
+        - [ ] Accessible (WCAG AA)
+    validations:
+      required: true
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Priority
+      options:
+        - Critical (must have for launch)
+        - Enhancement (nice to have)
+    validations:
+      required: true
+
+  - type: dropdown
+    id: milestone
+    attributes:
+      label: Milestone
+      options:
+        - v0.1 - Foundation
+        - v0.2 - Core Layout
+        - v0.3 - Homepage Complete
+        - v0.4 - SEO Ready
+        - v1.0 - Public Launch
+    validations:
+      required: true

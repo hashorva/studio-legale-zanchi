@@ -1,0 +1,41 @@
+name: Bug Report
+description: Report a bug or issue
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Bug Report
+        Something isn't working as expected
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Describe the bug
+      description: What's happening?
+      placeholder: "The header overlaps the hero section on mobile..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      value: |
+        1. Go to '...'
+        2. Click on '...'
+        3. Scroll to '...'
+        4. See error
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+      description: What should happen instead?
+
+  - type: input
+    id: device
+    attributes:
+      label: Device/Browser
+      placeholder: "iPhone 14 Pro / Safari, Chrome on Mac, etc."

@@ -1,0 +1,31 @@
+name: Cleanup / Refactor
+description: Code cleanup or refactoring task
+title: "[Cleanup]: "
+labels: ["cleanup"]
+body:
+  - type: textarea
+    id: goal
+    attributes:
+      label: Goal
+      description: What are we cleaning up or refactoring?
+      placeholder: "Remove redundant chat components, consolidate into single ChatWidget"
+    validations:
+      required: true
+
+  - type: textarea
+    id: tasks
+    attributes:
+      label: Tasks
+      value: |
+        - [ ] Task 1
+        - [ ] Task 2
+        - [ ] Task 3
+
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance Criteria
+      value: |
+        - [ ] No duplicate code
+        - [ ] All tests pass
+        - [ ] No console errors
