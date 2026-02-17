@@ -1,11 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import OpenAI from "openai";
 
-// Initialize OpenAI client with your API key from environment variables
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
-
 // This is the system prompt - it defines the AI's personality and behavior
 const SYSTEM_PROMPT = `Sei l'assistente virtuale dello Studio Legale Zanchi, un prestigioso studio legale con sede a Milano fondato nel 2020 dall'Avvocato Silvio Zanchi.
 
@@ -93,6 +88,16 @@ STILE DI COMUNICAZIONE:
 // POST handler - this runs when someone sends a message
 export async function POST(request: NextRequest) {
   try {
+    const apiKey = process.env.OPENAI_API_KEY;
+    if (!apiKey) {
+      return NextResponse.json(
+        { error: "OPENAI_API_KEY is not configured" },
+        { status: 500 }
+      );
+    }
+
+    const openai = new OpenAI({ apiKey });
+
     // Parse the incoming request body to get the messages
     const body = await request.json();
     const { messages } = body;
