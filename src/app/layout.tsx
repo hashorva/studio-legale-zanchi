@@ -9,7 +9,10 @@ import { ChatProvider } from "@/contexts/ChatContext";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Studio Legale Zanchi",
+  title: {
+    template: "%s | Studio Legale Zanchi",
+    default: "Studio Legale Zanchi | Avvocato Civile Milano",
+  },
   description: "Assistenza legale in ambito civile e contrattuale a Milano",
 };
 

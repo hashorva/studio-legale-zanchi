@@ -13,7 +13,7 @@ export default function ServiziPage() {
             className="border p-6 rounded-lg hover:shadow-md block"
           >
             <h3 className="text-xl font-bold mb-2">{service.title}</h3>
-            <p className="text-muted-foreground">{service.description}</p>
+            <p className="text-muted-foreground">{service.shortDescription}</p>
           </Link>
         ))}
       </div>
