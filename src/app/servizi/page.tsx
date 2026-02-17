@@ -17,6 +17,5 @@ export default function ServiziPage() {
           </Link>
         ))}
       </div>
-    </div>
-  );
+    </div > );
 }
