@@ -2,30 +2,61 @@
 "use client";
 
 import Link from "next/link";
-import { Menu, X } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { useState } from "react";
+import { usePathname } from "next/navigation"; // ← NEW: reads current URL
+import { Menu, X, Scale } from "lucide-react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { AnimatePresence, motion } from "framer-motion";
+import ThemeToggle from "./ThemeToggle";
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-
   const [shouldRenderOverlay, setShouldRenderOverlay] = useState(false);
+  const closeOverlayTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const pathname = usePathname(); // ← NEW: "/servizi" when on services page
 
-  const openMenu = () => {
+  const openMenu = useCallback(() => {
+    if (closeOverlayTimeoutRef.current) {
+      clearTimeout(closeOverlayTimeoutRef.current);
+      closeOverlayTimeoutRef.current = null;
+    }
     setIsMenuOpen(true);
     setShouldRenderOverlay(true);
-  };
+  }, []);
 
-  const closeMenu = () => {
+  const closeMenu = useCallback(() => {
     setIsMenuOpen(false);
-    setTimeout(() => {
+    if (closeOverlayTimeoutRef.current) {
+      clearTimeout(closeOverlayTimeoutRef.current);
+    }
+    closeOverlayTimeoutRef.current = setTimeout(() => {
       setShouldRenderOverlay(false);
-    }, 100); // Wait
-  };
+      closeOverlayTimeoutRef.current = null;
+    }, 100);
+  }, []);
+
+  // Close mobile menu with Escape key (accessibility)
+  useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === "Escape") closeMenu();
+    };
+    if (isMenuOpen) {
+      document.addEventListener("keydown", handleEscape);
+      return () => document.removeEventListener("keydown", handleEscape);
+    }
+  }, [isMenuOpen, closeMenu]);
+
+  useEffect(() => {
+    return () => {
+      if (closeOverlayTimeoutRef.current) {
+        clearTimeout(closeOverlayTimeoutRef.current);
+      }
+    };
+  }, []);
+
 
   return (
     <>
+      {/* Backdrop Overlay — only shows when mobile menu open */}
       <AnimatePresence>
         {shouldRenderOverlay && (
           <motion.div
@@ -39,46 +70,50 @@ export default function Header() {
         )}
       </AnimatePresence>
 
+      {/* Header — fixed to top, full width */}
       <motion.header
         layout
-        className="fixed top-0 z-50 w-full bg-white/80 backdrop-blur border-b border-gray-200"
+        className="fixed top-0 z-50 w-full bg-background/80 backdrop-blur"
         initial={false}
       >
         <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-          {/* Logo */}
-          <Link href="/" className="flex flex-col leading-none">
-            <span className="text-sm font-medium text-muted-foreground tracking-wide uppercase">
-              Studio Legale
-            </span>
-            <span className="text-3xl font-extrabold tracking-tight uppercase">
-              ZANCHI
-            </span>
+
+          {/* Logo — left side */}
+          <Link href="/" className="flex items-center gap-3 group" onClick={closeMenu}>
+            {/* Scale icon */}
+            <Scale className="w-10 h-10 text-primary flex-shrink-0" strokeWidth={1.5} />
+
+            {/* Text stack */}
+            <div className="flex flex-col leading-tight">
+              <span className="text-xl font-bold text-foreground font-serif">
+                Studio Legale Zanchi
+              </span>
+              <span className="text-xs italic text-muted-foreground hidden sm:block font-sans">
+                Esperienza e competenza al tuo servizio
+              </span>
+            </div>
           </Link>
 
-          {/* Desktop Nav */}
+          {/* Desktop Nav — hidden on mobile, visible lg+ */}
           <nav className="hidden lg:flex gap-8 items-center">
-            <Link
-              href="/servizi"
-              className="text-sm hover:text-primary transition-colors"
-            >
+            <NavLink href="/servizi" currentPath={pathname}>
               Servizi
-            </Link>
-            <Link
-              href="/chi-siamo"
-              className="text-sm hover:text-primary transition-colors"
-            >
-              Chi siamo
-            </Link>
-            <Link href="/contatti">
-              <Button size="sm">Fissa una consulenza</Button>
-            </Link>
+            </NavLink>
+            <NavLink href="/chi-siamo" currentPath={pathname}>
+              Chi Siamo
+            </NavLink>
+            <NavLink href="/contatti" currentPath={pathname}>
+              Contatti
+            </NavLink>
+            <ThemeToggle />
           </nav>
 
-          {/* Mobile Menu Toggle */}
+          {/* Mobile Menu Toggle — visible on mobile only */}
           <button
-            className="lg:hidden z-50 relative"
+            className="lg:hidden z-50 relative p-2 rounded-md hover:bg-muted transition-colors focus:outline-none focus:ring-2 focus:ring-accent"
             onClick={isMenuOpen ? closeMenu : openMenu}
-            aria-label="Toggle Menu"
+            aria-label="Toggle menu"
+            aria-expanded={isMenuOpen}
           >
             {isMenuOpen ? (
               <X className="w-6 h-6" />
@@ -88,6 +123,7 @@ export default function Header() {
           </button>
         </div>
 
+        {/* Mobile Menu — slides down when open */}
         <AnimatePresence>
           {isMenuOpen && (
             <motion.div
@@ -97,33 +133,69 @@ export default function Header() {
               animate={{ height: "auto" }}
               exit={{ height: 0 }}
               transition={{ duration: 0.3 }}
-              className="overflow-hidden"
+              className="overflow-hidden lg:hidden"
             >
-              <motion.div
+              <motion.nav
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.3 }}
-                className="lg:hidden px-4 pb-6 flex flex-col items-center gap-4"
+                className="px-4 pb-6 flex flex-col items-center gap-4 border-t border-border"
               >
-                <Link href="/servizi" onClick={closeMenu} className="text-base">
+                <NavLink href="/servizi" currentPath={pathname} mobile onClick={closeMenu}>
                   Servizi
-                </Link>
-                <Link
-                  href="/chi-siamo"
-                  onClick={closeMenu}
-                  className="text-base"
-                >
-                  Chi siamo
-                </Link>
-                <Link href="/contatti" onClick={closeMenu}>
-                  <Button>Fissa una consulenza</Button>
-                </Link>
-              </motion.div>
+                </NavLink>
+                <NavLink href="/chi-siamo" currentPath={pathname} mobile onClick={closeMenu}>
+                  Chi Siamo
+                </NavLink>
+                <NavLink href="/contatti" currentPath={pathname} mobile onClick={closeMenu}>
+                  Contatti
+                </NavLink>
+                <ThemeToggle/>
+              </motion.nav>
             </motion.div>
           )}
         </AnimatePresence>
       </motion.header>
     </>
+  );
+}
+
+// ========================================
+// NavLink Component — reusable nav link
+// ========================================
+function NavLink({
+  href,
+  currentPath,
+  children,
+  mobile = false,
+  onClick,
+}: {
+  href: string;
+  currentPath: string;
+  children: React.ReactNode;
+  mobile?: boolean;
+  onClick?: () => void;
+}) {
+  const isActive = currentPath === href;
+
+  return (
+    <Link
+      href={href}
+      onClick={onClick}
+      className={`
+        ${mobile ? "text-lg py-2" : "text-sm"}
+        transition-colors
+        font-medium
+        focus:outline-none focus:underline focus:underline-offset-4
+        ${
+          isActive
+            ? "text-accent font-semibold" // Active: red + bold
+            : "text-foreground hover:text-accent" // Inactive: navy → red on hover
+        }
+      `}
+    >
+      {children}
+    </Link>
   );
 }
