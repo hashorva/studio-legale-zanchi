@@ -85,7 +85,7 @@ export default function Header() {
 
             {/* Text stack */}
             <div className="flex flex-col leading-tight">
-              <span className="text-xl font-bold text-foreground font-serif">
+              <span className="text-xl font-medium text-foreground font-serif">
                 Studio Legale Zanchi
               </span>
               <span className="text-xs italic text-muted-foreground hidden sm:block font-sans">

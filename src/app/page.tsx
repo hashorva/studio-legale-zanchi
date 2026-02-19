@@ -14,7 +14,7 @@ export default function Home() {
 
       {/* Services Section */}
       <section className="mb-20">
-        <h2 className="text-3xl font-bold mb-8 text-center">
+        <h2 className="text-3xl font-serif font-medium mb-8 text-center">
           Le nostre aree di competenza
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
