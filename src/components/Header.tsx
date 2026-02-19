@@ -73,10 +73,10 @@ export default function Header() {
       {/* Header — fixed to top, full width */}
       <motion.header
         layout
-        className="fixed top-0 z-50 w-full bg-background/80 backdrop-blur"
+        className="fixed top-0 z-50 w-full bg-background/90 backdrop-blur"
         initial={false}
       >
-        <div className="container mx-auto px-4 py-4 flex justify-between items-center">
+        <div className="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
 
           {/* Logo — left side */}
           <Link href="/" className="flex items-center gap-3 group" onClick={closeMenu}>

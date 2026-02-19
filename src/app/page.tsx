@@ -4,41 +4,13 @@ import { Card, CardContent } from "@/components/ui/card";
 import Link from "next/link";
 import { servizi } from "@/lib/services";
 import ChatWidget from "@/components/ChatWidget";
+import Hero from "@/components/Hero";
 
 export default function Home() {
   return (
-    <div className="container mx-auto px-4 py-12">
-      {/* Hero Section */}
-      <section className="flex flex-col md:flex-row items-center justify-between gap-12 mb-20 py-20">
-        <div className="flex-1 space-y-6">
-          <h1 className="text-4xl md:text-5xl font-bold tracking-tight">
-            Studio Legale Zanchi
-          </h1>
-          <p className="text-xl text-muted-foreground">
-            Competenza, trasparenza e dedizione al servizio dei nostri clienti
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4">
-            <Button asChild size="lg">
-              <Link href="/contatti">Fissa una consulenza</Link>
-            </Button>
-            <Button variant="outline" size="lg" asChild>
-              <Link href="/servizi">Scopri i nostri servizi</Link>
-            </Button>
-          </div>
-        </div>
-        <div className="flex-1 flex justify-center">
-          <div className="relative w-64 h-64 md:w-80 md:h-80">
-            <Image
-              src="/avvocato-silvio-zanchi.jpeg"
-              alt="Avvocato Silvio Zanchi"
-              fill
-              className="rounded-full object-cover border-4 border-white shadow-xl"
-              priority
-            />
-          </div>
-        </div>
-      </section>
+    <>
 
+      <Hero />
 
       {/* Services Section */}
       <section className="mb-20">
@@ -79,6 +51,6 @@ export default function Home() {
 
       {/* Chat Widget */}
       <ChatWidget />
-    </div>
+    </>
   );
 }
