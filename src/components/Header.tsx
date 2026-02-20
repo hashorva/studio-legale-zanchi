@@ -1,18 +1,21 @@
 // src/components/Header.tsx
-"use client";
+'use client';
 
-import Link from "next/link";
-import { usePathname } from "next/navigation"; // ← NEW: reads current URL
-import { Menu, X, Scale } from "lucide-react";
-import { useState, useEffect, useCallback, useRef } from "react";
-import { AnimatePresence, motion } from "framer-motion";
-import ThemeToggle from "./ThemeToggle";
+import Link from 'next/link';
+import { usePathname } from 'next/navigation'; // ← NEW: reads current URL
+import { Menu, X, Scale } from 'lucide-react';
+import { useState, useEffect, useCallback, useRef } from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
+import ThemeToggle from './ThemeToggle';
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [shouldRenderOverlay, setShouldRenderOverlay] = useState(false);
-  const closeOverlayTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const closeOverlayTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(
+    null
+  );
   const pathname = usePathname(); // ← NEW: "/servizi" when on services page
+  const headerRef = useRef<HTMLElement>(null);
 
   const openMenu = useCallback(() => {
     if (closeOverlayTimeoutRef.current) {
@@ -34,14 +37,41 @@ export default function Header() {
     }, 100);
   }, []);
 
+  // Calculate the height of the header
+  useEffect(() => {
+    let timeoutId: NodeJS.Timeout;
+
+    const updateHeaderHeight = () => {
+      clearTimeout(timeoutId);
+      timeoutId = setTimeout(() => {
+        if (headerRef.current) {
+          const height = headerRef.current.offsetHeight;
+          document.documentElement.style.setProperty(
+            '--header-height',
+            `${height}px`
+          );
+        }
+      }, 100);
+    };
+
+    // Measure on mount and resize
+    updateHeaderHeight();
+    window.addEventListener('resize', updateHeaderHeight);
+
+    return () => {
+      window.removeEventListener('resize', updateHeaderHeight);
+      clearTimeout(timeoutId);
+    };
+  }, []);
+
   // Close mobile menu with Escape key (accessibility)
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
-      if (e.key === "Escape") closeMenu();
+      if (e.key === 'Escape') closeMenu();
     };
     if (isMenuOpen) {
-      document.addEventListener("keydown", handleEscape);
-      return () => document.removeEventListener("keydown", handleEscape);
+      document.addEventListener('keydown', handleEscape);
+      return () => document.removeEventListener('keydown', handleEscape);
     }
   }, [isMenuOpen, closeMenu]);
 
@@ -52,7 +82,6 @@ export default function Header() {
       }
     };
   }, []);
-
 
   return (
     <>
@@ -73,15 +102,22 @@ export default function Header() {
       {/* Header — fixed to top, full width */}
       <motion.header
         layout
+        ref={headerRef}
         className="fixed top-0 z-50 w-full bg-background/90 backdrop-blur"
         initial={false}
       >
         <div className="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
-
           {/* Logo — left side */}
-          <Link href="/" className="flex items-center gap-3 group" onClick={closeMenu}>
+          <Link
+            href="/"
+            className="flex items-center gap-3 group"
+            onClick={closeMenu}
+          >
             {/* Scale icon */}
-            <Scale className="w-10 h-10 text-primary flex-shrink-0" strokeWidth={1.5} />
+            <Scale
+              className="w-10 h-10 text-primary flex-shrink-0"
+              strokeWidth={1.5}
+            />
 
             {/* Text stack */}
             <div className="flex flex-col leading-tight">
@@ -130,7 +166,7 @@ export default function Header() {
               layout
               key="mobile-menu"
               initial={{ height: 0 }}
-              animate={{ height: "auto" }}
+              animate={{ height: 'auto' }}
               exit={{ height: 0 }}
               transition={{ duration: 0.3 }}
               className="overflow-hidden lg:hidden"
@@ -142,16 +178,31 @@ export default function Header() {
                 transition={{ duration: 0.3 }}
                 className="px-4 pb-6 flex flex-col items-center gap-4 border-t border-border"
               >
-                <NavLink href="/servizi" currentPath={pathname} mobile onClick={closeMenu}>
+                <NavLink
+                  href="/servizi"
+                  currentPath={pathname}
+                  mobile
+                  onClick={closeMenu}
+                >
                   Servizi
                 </NavLink>
-                <NavLink href="/chi-siamo" currentPath={pathname} mobile onClick={closeMenu}>
+                <NavLink
+                  href="/chi-siamo"
+                  currentPath={pathname}
+                  mobile
+                  onClick={closeMenu}
+                >
                   Chi Siamo
                 </NavLink>
-                <NavLink href="/contatti" currentPath={pathname} mobile onClick={closeMenu}>
+                <NavLink
+                  href="/contatti"
+                  currentPath={pathname}
+                  mobile
+                  onClick={closeMenu}
+                >
                   Contatti
                 </NavLink>
-                <ThemeToggle/>
+                <ThemeToggle />
               </motion.nav>
             </motion.div>
           )}
@@ -184,14 +235,14 @@ function NavLink({
       href={href}
       onClick={onClick}
       className={`
-        ${mobile ? "text-lg py-2" : "text-sm"}
+        ${mobile ? 'text-lg py-2' : 'text-sm'}
         transition-colors
         font-medium
         focus:outline-none focus:underline focus:underline-offset-4
         ${
           isActive
-            ? "text-accent font-semibold" // Active: red + bold
-            : "text-foreground hover:text-accent" // Inactive: navy → red on hover
+            ? 'text-accent font-semibold' // Active: red + bold
+            : 'text-foreground hover:text-accent' // Inactive: navy → red on hover
         }
       `}
     >

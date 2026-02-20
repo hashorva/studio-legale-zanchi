@@ -9,16 +9,16 @@ import { ThemeProvider } from 'next-themes';
 
 // Serif for headings/brand
 const playfair = Playfair_Display({
-  subsets: ["latin"],
-  variable: "--font-serif",
-  display: "swap",
+  subsets: ['latin'],
+  variable: '--font-serif',
+  display: 'swap',
 });
 
 // Serif for body/nav
 const inter = Inter({
   subsets: ['latin'],
-  variable: "--font-sans",
-  display: "swap",
+  variable: '--font-sans',
+  display: 'swap',
 });
 
 export const metadata: Metadata = {
@@ -36,12 +36,17 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="it" className={`${playfair.variable} ${inter.variable}`}>
-      <body className='font-sans'>
+      <body className="font-sans">
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <ChatProvider>
             <div className="min-h-screen flex flex-col">
               <Header />
-              <main className="flex-grow pt-20">{children}</main>{' '}
+              <main
+                className="flex-grow"
+                style={{ paddingTop: 'var(--header-height, 5rem)' }}
+              >
+                {children}
+              </main>{' '}
               {/* The top padding should be defined by the height of the menu bar to avoid overlap */}
               <Footer />
             </div>
