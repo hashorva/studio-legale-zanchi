@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import {Send, Handshake, Hand } from 'lucide-react';
+import { Send, Handshake } from 'lucide-react';
 
 export default function Hero() {
   return (
@@ -18,7 +18,7 @@ export default function Hero() {
               </span>{' '}
               per ogni tua esigenza
             </h1>
-            <p className="font-sans text-md text-white/70 max-w-xl">
+            <p className="font-sans text-base text-white/70 max-w-xl">
               Lo Studio Legale Zanchi offre una consulenza e assistenza legale
               in diversi ambiti del diritto, con un approccio personalizzato e
               orientato alla risoluzione efficace delle problematiche dei
@@ -40,7 +40,7 @@ export default function Hero() {
                     md:hover:-translate-y-0.5
                     md:hover:shadow-[0_0_20px_rgba(191,21,52,0.5)]
 
-                    /* Smooth transition_ */
+                    /* Smooth transitions */
                     transition-all
                     duration-200
 
@@ -75,7 +75,7 @@ export default function Hero() {
                     md:hover:-translate-y-0.5
                     md:hover:shadow-[0_0_30px_rgba(31,59,115,0.7)]
 
-                    /* Smooth transition_ */
+                    /* Smooth transitions */
                     transition-all
                     duration-200
 
@@ -86,8 +86,7 @@ export default function Hero() {
                     focus-visible:ring-offset-black
                   "
                 >
-                  <Handshake className="w-5 h-5 mr-0" />
-                  I Nostri Servizi
+                  <Handshake className="w-5 h-5 mr-0" />I Nostri Servizi
                 </Button>
               </Link>
             </div>
@@ -99,7 +98,9 @@ export default function Hero() {
               src="/avvocato-silvio-zanchi.jpeg"
               alt="Avvocato Silvio Zanchi"
               fill
+              sizes="(max-width: 768px) 100vw, 40vw"
               className="object-cover md:object-[35%_0%] lg:object-bottom "
+              priority
             />
           </div>
         </div>
@@ -107,27 +108,36 @@ export default function Hero() {
 
       {/* Mobile Layout: Photo background + Text overlay (below lg:) */}
       <div className="md:hidden">
-        <div className="relative min-h-[600px] h-[750px] sm:h-[70vh] md:h-[80vh] mt-20 flex flex-col items-end justify-end">
+        <div className="relative min-h-[600px] h-[750px] sm:h-[70vh] mt-20 flex flex-col items-end justify-end">
           {/* Background Photo Layer */}
-          <div className="absolute inset-0 z-0 mt-10">
+          <div className="absolute inset-0 z-0 mt-10 max-w-[600px] ml-auto">
             <Image
               src="/avvocato-silvio-zanchi.jpeg"
               alt="Avvocato Silvio Zanchi"
               fill
-              className="object-cover object-[30%] max-w-[600px] ml-auto"
+              sizes="100vw"
+              className="object-cover object-[30%] "
               priority
             />
           </div>
 
-          {/* Dark Gradaient Overlay for Text Readability */}
+          {/* Dark Gradient Overlay for Text Readability */}
           <div className="absolute bottom-0 left-0 right-0 h-[50vh] z-10 bg-gradient-to-t from-black/90 via-black/50 to-transparent" />
 
           {/* Text Content Overlay (bottom-anchored) */}
           <div className="absolute bottom-0 left-0 right-0 z-20 p-6 pb-16 pr-10">
             <div className="flex flex-col gap-4">
-              <h1 className="font-serif font-bold text-4xl text-white/80 leading-tight">
-                Soluzioni legali <span className="underline underline-offset-6 decoration-accent decoration-5 text-white">personalizzate</span> per ogni tua esigenza
-              </h1>
+              <div
+                aria-level="1"
+                role="heading"
+                className="font-serif font-bold text-4xl text-white/80 leading-tight"
+              >
+                Soluzioni legali{' '}
+                <span className="underline underline-offset-6 decoration-accent decoration-5 text-white">
+                  personalizzate
+                </span>{' '}
+                per ogni tua esigenza
+              </div>
               <p className="font-sans text-base text-white/90">
                 Lo Studio Legale Zanchi offre una consulenza e assistenza legale
                 in diversi ambiti del diritto, con un approccio personalizzato
@@ -145,8 +155,7 @@ export default function Hero() {
                     variant="outline"
                     className="border-white bg-white/20 text-white hover:bg-white/10"
                   >
-                    <Handshake className="w-5 h-5 mr-0" />
-                    I Nostri Servizi
+                    <Handshake className="w-5 h-5 mr-0" />I Nostri Servizi
                   </Button>
                 </Link>
               </div>
