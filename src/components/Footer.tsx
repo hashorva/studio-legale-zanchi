@@ -19,7 +19,7 @@ type NavLink = {
 
 const navLinks: NavLink[] = [
   { href: '/', label: 'Home', Icon: ChevronRight },
-  { href: '/chi-siamo', label: 'Chi Siamo ', Icon: ChevronRight },
+  { href: '/chi-siamo', label: 'Chi Siamo', Icon: ChevronRight },
   { href: '/servizi', label: 'Servizi', Icon: ChevronRight },
   { href: '/contatti', label: 'Contatti', Icon: ChevronRight },
 ];
@@ -38,42 +38,42 @@ export default function Footer() {
                 Studio Legale Zanchi
               </p>
             </div>
-            <p className="text-white/70 text-sm leading-relaxed mr-10">
+            <p className="text-white/70 text-sm leading-relaxed md:mr-10">
               Offriamo assistenza legale professionale e personalizzata per
               privati e aziende.
             </p>
           </div>
 
           {/* Column 2: Contacts */}
-          <address className="not-italic space-y-3">
-            <p className="font-semibold text-white mb-4">Contatti</p>
-            <div className="group flex items-start gap-2 text-sm text-white/70">
-              <MapPin className="h-4 w-4 mt-0.5 shrink-0 text-white/50 group-hover:text-white transition-colors" />
+          <address aria-labelledby="footer-contacts" className="not-italic">
+            <h3 id="footer-contacts" className="font-semibold text-white mb-4">
+              Contatti
+            </h3>
+            <div className="group flex items-center gap-2 text-sm">
+              <MapPin className="h-4 w-4 shrink-0 text-white/50 group-hover:text-white group-focus-within:text-white transition-colors" />
               <a
                 href="https://maps.google.com/?q=Via+Giuseppe+Ripamonti+114+Milano+20141"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-white/70 group-hover:text-white transition-colors"
+                className="text-white/70 py-3 group-hover:text-white group-focus-within:text-white transition-colors focus-visible:outline focus-visible:outline-white focus-visible:outline-offset-2 focus-visible:rounded-sm"
               >
-                Via Giuseppe Ripamonti 114
-                <br />
-                20141 Milano
+                Via Giuseppe Ripamonti 114, 20141 Milano
               </a>
             </div>
             <div className="group flex items-center gap-2 text-sm">
-              <Phone className="h-4 w-4 shrink-0 text-white/50 group-hover:text-white transition-colors" />
+              <Phone className="h-4 w-4 shrink-0 text-white/50 group-hover:text-white group-focus-within:text-white transition-colors" />
               <a
-                href="tel:+390212345678"
-                className="text-white/70 group-hover:text-white transition-colors"
+                href="tel:+390236504555"
+                className="text-white/70 py-3 group-hover:text-white group-focus-within:text-white transition-colors focus-visible:outline focus-visible:outline-white focus-visible:outline-offset-2 focus-visible:rounded-sm"
               >
-                +39 02 1234567
+                +39 02 36504555
               </a>
             </div>
-            <div className="group flex items-center gap-2 text-sm ">
-              <Send className="h-4 w-4 shrink-0 text-white/50 group-hover:text-white transition-colors" />
+            <div className="group flex items-center gap-2 text-sm">
+              <Send className="h-4 w-4 shrink-0 text-white/50 group-hover:text-white group-focus-within:text-white transition-colors" />
               <a
                 href="mailto:info@studiolegalezanchi.com"
-                className="text-white/70 group-hover:text-white transition-colors"
+                className="text-white/70 py-3 group-hover:text-white group-focus-within:text-white transition-colors focus-visible:outline focus-visible:outline-white focus-visible:outline-offset-2 focus-visible:rounded-sm"
               >
                 info@studiolegalezanchi.com
               </a>
@@ -82,17 +82,17 @@ export default function Footer() {
 
           {/* Column 3: Navigation */}
           <nav aria-label="Footer navigation">
-            <p className="font-semibold text-white mb-4">Link utili</p>
-            <ul className="space-y-3">
+            <h3 className="font-semibold text-white mb-4">Link utili</h3>
+            <ul>
               {navLinks.map((link) => (
                 <li key={link.href} className="group flex items-center gap-2">
                   <link.Icon
-                    className="h-4 w-4 text-white/50 shrink-0 group-hover:text-white transition-colors"
+                    className="h-4 w-4 text-white/50 shrink-0 group-hover:text-white group-focus-within:text-white transition-colors"
                     aria-hidden="true"
                   />
                   <Link
                     href={link.href}
-                    className="text-sm text-white/70 group-hover:text-white transition-colors"
+                    className="text-sm py-3 text-white/70 group-hover:text-white group-focus-within:text-white transition-colors focus-visible:outline focus-visible:outline-white focus-visible:outline-offset-2 focus-visible:rounded-sm"
                   >
                     {link.label}
                   </Link>
@@ -104,25 +104,34 @@ export default function Footer() {
       </div>
 
       {/* Bottom bar: copyright + legal */}
-      <div className="border-t border-white/10 mt-10 pt-6 pb-12 text-center text-xs text-white/50 space-y-1">
+      <div className="border-t border-white/10 pt-6 pb-12 text-center text-xs text-white/50 space-y-2">
         <p>
           © {new Date().getFullYear()} Studio Legale Zanchi. Tutti i diritti
           riservati.
         </p>
         <p>P.IVA: 12345678910</p>
-        <ul className="flex justify-center gap-4 flex-wrap">
+        <ul className="flex justify-center gap-4 flex-wrap mt-4">
           <li>
-            <Link href="/privacy-policy" className="hover:text-white/90">
+            <Link
+              href="/privacy-policy"
+              className="py-4 hover:text-white/90 focus-visible:outline focus-visible:outline-white focus-visible:outline-offset-2 focus-visible:rounded-sm"
+            >
               Privacy Policy
             </Link>
           </li>
           <li>
-            <Link href="/cookie-policy" className="hover:text-white/90">
+            <Link
+              href="/cookie-policy"
+              className="py-4 hover:text-white/90 focus-visible:outline focus-visible:outline-white focus-visible:outline-offset-2 focus-visible:rounded-sm"
+            >
               Cookie Policy
             </Link>
           </li>
           <li>
-            <Link href="/termini-e-condizioni" className="hover:text-white/90">
+            <Link
+              href="/termini-e-condizioni"
+              className="py-4 hover:text-white/90 focus-visible:outline focus-visible:outline-white focus-visible:outline-offset-2 focus-visible:rounded-sm"
+            >
               Termini e Condizioni
             </Link>
           </li>

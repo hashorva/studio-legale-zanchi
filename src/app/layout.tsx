@@ -29,13 +29,65 @@ export const metadata: Metadata = {
   description: 'Assistenza legale in ambito civile e contrattuale a Milano',
 };
 
+function JsonLd() {
+  const schema = {
+    '@context': 'https://schema.org',
+    '@type': 'LegalService',
+    name: 'Studio Legale Zanchi',
+    description: 'Assistenza legale in ambito civile e contrattuale a Milano',
+    url: 'https://studiolegalezanchi.com',
+    telephone: '+390236504555',
+    email: 'info@studiolegalezanchi.com',
+    address: {
+      '@type': 'PostalAddress',
+      streetAddress: 'Via Giuseppe Ripamonti 114',
+      addressLocality: 'Milano',
+      postalCode: '20141',
+      addressCountry: 'IT',
+    },
+    geo: {
+      '@type': 'GeoCoordinates',
+      latitude: 45.43931607042396,
+      longitude: 9.199419275085615,
+    },
+    openingHoursSpecification: [
+      {
+        '@type': 'OpeningHoursSpecification',
+        dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+        opens: '09:00',
+        closes: '13:00',
+      },
+      {
+        '@type': 'OpeningHoursSpecification',
+        dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+        opens: '15:00',
+        closes: '19:30',
+      },
+    ],
+    areaServed: {
+      '@type': 'City',
+      name: 'Milano',
+    },
+  };
+
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+    />
+  );
+}
+
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="it" className={`${playfair.variable} ${inter.variable}`}>
+    <html lang="it" suppressHydrationWarning className={`${playfair.variable} ${inter.variable}`}>
+      <head>
+        <JsonLd />
+      </head>
       <body className="font-sans">
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <ChatProvider>
@@ -46,7 +98,7 @@ export default function RootLayout({
                 style={{ paddingTop: 'var(--header-height, 5rem)' }}
               >
                 {children}
-              </main>{' '}
+              </main>
               {/* The top padding should be defined by the height of the menu bar to avoid overlap */}
               <Footer />
             </div>
