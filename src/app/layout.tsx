@@ -84,7 +84,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="it" suppressHydrationWarning className={`${playfair.variable} ${inter.variable}`}>
+    <html
+      lang="it"
+      suppressHydrationWarning
+      className={`${playfair.variable} ${inter.variable}`}
+    >
       <head>
         <JsonLd />
       </head>
@@ -93,12 +97,7 @@ export default function RootLayout({
           <ChatProvider>
             <div className="min-h-screen flex flex-col">
               <Header />
-              <main
-                className="flex-grow"
-                style={{ paddingTop: 'var(--header-height, 5rem)' }}
-              >
-                {children}
-              </main>
+              <main className="flex-grow">{children}</main>
               {/* The top padding should be defined by the height of the menu bar to avoid overlap */}
               <Footer />
             </div>

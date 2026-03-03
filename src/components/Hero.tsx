@@ -5,19 +5,16 @@ import { Send, Handshake } from 'lucide-react';
 
 export default function Hero() {
   return (
-    <section
-      className="relative bg-[#010101] w-full"
-      style={{ marginTop: 'calc(-2 * var(--header-height, 5rem))' }}
-    >
+    <section className="relative bg-[#010101] w-full">
       <div
         className="max-w-7xl mx-auto"
         style={{ marginTop: 'var(--header-height, 5rem)' }}
       >
         <div
           className="
-          relative min-h-[600px] h-[670px]
+          relative min-h-[600px] h-[610px]
 
-          md:h-auto md:min-h-[50vh] md:grid md:grid-cols-[1.1fr_1fr] md:items-center
+          md:h-auto md:min-h-[50vh] md:grid md:grid-cols-[1.1fr_1fr]
 
           lg:min-h-[800px] lg:grid-cols-[1.5fr_1fr]
         "
@@ -25,18 +22,18 @@ export default function Hero() {
           {/* Right: Photo (bottom-aligned) */}
           <div
             className="
-            absolute inset-0 z-0 mt-10 max-w-[600px] ml-auto
+            absolute inset-0 z-0 max-w-[600px] ml-auto
 
-            md:relative md:inset-auto md:mt-15 md:max-w-none md:ml-0 md:z-auto md:order-2
-            md:h-[60vh] md:min-h-[600px]
+            md:relative md:inset-auto md:max-w-none md:ml-0 md:z-auto md:order-2
+            md:h-[60vh] md:min-h-[600px] md:self-end
 
-            lg:h-[60vh] lg:min-h-[750px] lg:mt-auto"
+            lg:h-[60vh] lg:min-h-[750px]"
           >
             <Image
               src="/avvocato-silvio-zanchi.jpeg"
               alt="Avvocato Silvio Zanchi"
               fill
-              sizes="(max-width: 768px) 100vw, (max-width: 1024px) 60vw, 90vw"
+              sizes="(max-width: 768px) 100vw, (max-width: 1024px) 80vw, 90vw"
               className="
                 object-cover object-[25%_0%]
 
@@ -50,7 +47,7 @@ export default function Hero() {
           {/* Gradient overlay - mobile only */}
           <div
             className="
-            absolute bottom-0 left-0 right-0 h-[50vh] z-10 bg-gradient-to-t from-black/90 via-black/50 to-transparent
+            absolute bottom-0 left-0 right-0 h-[40vh] z-10 bg-gradient-to-t from-black/90 via-black/50 to-transparent
 
             md:hidden
           "
@@ -59,11 +56,11 @@ export default function Hero() {
           {/* Left: Text Content */}
           <div
             className="
-            absolute bottom-0 left-0 right-0 z-20 p-6 pb-15 pr-10
+            absolute bottom-0 left-0 right-0 z-20 p-6 pb-10 pr-10
             flex flex-col gap-4
 
             md:relative md:inset-auto md:p-0 md:pl-4 md:z-auto md:order-1
-            md:flex md:flex-col md:gap-6
+            md:flex md:flex-col md:gap-6 md:self-center
 
             lg:pb-0
           "

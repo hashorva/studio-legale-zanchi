@@ -53,9 +53,9 @@
 .dark {
   /* Dark mode surfaces (dimmed, not terminal) */
   --background:         oklch(0.858 0 0);          /* #D9D9D9 */
-  --foreground:         oklch(0.941 0 0);          /* #F0F0F0 */
+  --foreground:         oklch(0.15 0.081 258.3);   /* deeper navy than #182E59 */
   --card:               oklch(0.949 0 0);          /* #F2F2F2 */
-  --card-foreground:    oklch(0.941 0 0);          /* #F0F0F0 */
+  --foreground:         oklch(0.15 0.081 258.3);   /* deeper navy than #182E59 */
   --muted:              oklch(0.90 0 0);
   --muted-foreground:   oklch(0.50 0 0);
   --border:             oklch(0.313 0.099 258.1);  /* #1F3B73 */
