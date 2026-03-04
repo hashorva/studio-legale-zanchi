@@ -1,12 +1,6 @@
 'use client';
 
-import {
-  createContext,
-  useContext,
-  useState,
-  ReactNode,
-  useEffect,
-} from 'react';
+import { createContext, useContext, useState, ReactNode } from 'react';
 
 // The shape of the consent choices
 type CookieConsent = {
@@ -22,7 +16,7 @@ type CookieConsentContextType = {
   isPreferencesOpen: boolean;
   acceptAll: () => void;
   rejectAll: () => void;
-  savePreferences: (consent: CookieConsent) => void;
+  savePreferences: (newConsent: CookieConsent) => void;
   openPreferences: () => void;
   closePreferences: () => void;
 };
@@ -37,38 +31,38 @@ export function CookieConsentProvider({ children }: { children: ReactNode }) {
       essential: true as const,
       analytics: false,
       maps: false,
-    }
+    };
 
     // Guard against server (Next.js runs on server too)
-    if (typeof window === 'undefined') return defaultConsent
+    if (typeof window === 'undefined') return defaultConsent;
 
     // Read from localStorage
-    const saved = localStorage.getItem('cookie-consent')
+    const saved = localStorage.getItem('cookie-consent');
 
     // If nothing saved, return default
-    if (!saved) return defaultConsent
+    if (!saved) return defaultConsent;
 
     // Parse and return saved value
-    const parsed = JSON.parse(saved)
+    const parsed = JSON.parse(saved);
     return {
       essential: true as const,
       analytics: parsed.analytics,
       maps: parsed.maps,
-    }
+    };
   });
   const [hasChosen, setHasChosen] = useState<boolean>(() => {
     // Guard against server (Next.js runs on server too)
-    if (typeof window === 'undefined') return false
+    if (typeof window === 'undefined') return false;
 
     // Read from localStorage
-    const saved = localStorage.getItem('cookie-consent')
+    const saved = localStorage.getItem('cookie-consent');
 
     // If nothing saved, return default
-    if (!saved) return false
+    if (!saved) return false;
 
     // Parse and return saved value
-    const parsed = JSON.parse(saved)
-    return parsed.hasChosen ?? false
+    const parsed = JSON.parse(saved);
+    return parsed.hasChosen ?? false;
   });
   const [isPreferencesOpen, setIsPreferencesOpen] = useState(false);
 
@@ -109,4 +103,52 @@ export function CookieConsentProvider({ children }: { children: ReactNode }) {
       })
     );
   };
+  const openPreferences = () => {
+    setIsPreferencesOpen(true);
+  };
+
+  const closePreferences = () => {
+    setIsPreferencesOpen(false);
+  };
+  const savePreferences = (newConsent: CookieConsent) => {
+    //Use whatever the modal UI passes as objects with the CookieConsent shape
+    setConsent(newConsent);
+    setHasChosen(true);
+
+    // Save preferences in localStorage for persistent memory
+    localStorage.setItem(
+      'cookie-consent',
+      JSON.stringify({
+        ...newConsent,
+        hasChosen: true,
+      })
+    );
+
+    closePreferences();
+  };
+
+  return (
+    <CookieConsentContext.Provider
+      value={{
+        consent,
+        hasChosen,
+        isPreferencesOpen,
+        acceptAll,
+        rejectAll,
+        savePreferences,
+        openPreferences,
+        closePreferences,
+      }}
+    >
+      {children}
+    </CookieConsentContext.Provider>
+  );
+}
+
+export function useCookieConsent() {
+  const context = useContext(CookieConsentContext);
+  if (!context) {
+    throw new Error('useCookieConsent must be within CookieConsentProvider');
+  }
+  return context;
 }

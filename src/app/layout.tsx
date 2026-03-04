@@ -5,6 +5,7 @@ import './globals.css';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { ChatProvider } from '@/contexts/ChatContext';
+import { CookieConsentProvider } from '@/contexts/CookieConsentContext';
 import { ThemeProvider } from 'next-themes';
 
 // Serif for headings/brand
@@ -95,12 +96,14 @@ export default function RootLayout({
       <body className="font-sans">
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <ChatProvider>
-            <div className="min-h-screen flex flex-col">
-              <Header />
-              <main className="flex-grow">{children}</main>
-              {/* The top padding should be defined by the height of the menu bar to avoid overlap */}
-              <Footer />
-            </div>
+            <CookieConsentProvider>
+              <div className="min-h-screen flex flex-col">
+                <Header />
+                <main className="flex-grow">{children}</main>
+                {/* The top padding should be defined by the height of the menu bar to avoid overlap */}
+                <Footer />
+              </div>
+            </CookieConsentProvider>
           </ChatProvider>
         </ThemeProvider>
       </body>
