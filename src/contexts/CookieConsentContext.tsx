@@ -1,6 +1,12 @@
 'use client';
 
-import { createContext, useContext, useState, ReactNode } from 'react';
+import {
+  createContext,
+  useContext,
+  useState,
+  ReactNode,
+  useEffect,
+} from 'react';
 
 // The shape of the consent choices
 type CookieConsent = {
@@ -26,11 +32,81 @@ const CookieConsentContext = createContext<
 >(undefined);
 
 export function CookieConsentProvider({ children }: { children: ReactNode }) {
-  const [consent, setConsent] = useState<CookieConsent>({
-    essential: true,
-    analytics: false,
-    maps: false,
+  const [consent, setConsent] = useState<CookieConsent>(() => {
+    const defaultConsent = {
+      essential: true as const,
+      analytics: false,
+      maps: false,
+    }
+
+    // Guard against server (Next.js runs on server too)
+    if (typeof window === 'undefined') return defaultConsent
+
+    // Read from localStorage
+    const saved = localStorage.getItem('cookie-consent')
+
+    // If nothing saved, return default
+    if (!saved) return defaultConsent
+
+    // Parse and return saved value
+    const parsed = JSON.parse(saved)
+    return {
+      essential: true as const,
+      analytics: parsed.analytics,
+      maps: parsed.maps,
+    }
   });
-  const [hasChosen, setHasChosen] = useState(false);
-  const [isPrecerencesOpen, setIsPreferencesOpen] = useState(false);
+  const [hasChosen, setHasChosen] = useState<boolean>(() => {
+    // Guard against server (Next.js runs on server too)
+    if (typeof window === 'undefined') return false
+
+    // Read from localStorage
+    const saved = localStorage.getItem('cookie-consent')
+
+    // If nothing saved, return default
+    if (!saved) return false
+
+    // Parse and return saved value
+    const parsed = JSON.parse(saved)
+    return parsed.hasChosen ?? false
+  });
+  const [isPreferencesOpen, setIsPreferencesOpen] = useState(false);
+
+  const acceptAll = () => {
+    const newConsent = {
+      essential: true as const,
+      analytics: true,
+      maps: true,
+    };
+
+    setConsent(newConsent);
+    setHasChosen(true);
+
+    // Save preferences in localStorage for persistent memory
+    localStorage.setItem(
+      'cookie-consent',
+      JSON.stringify({
+        ...newConsent,
+        hasChosen: true,
+      })
+    );
+  };
+  const rejectAll = () => {
+    const newConsent = {
+      essential: true as const,
+      analytics: false,
+      maps: false,
+    };
+    setConsent(newConsent);
+    setHasChosen(true);
+
+    //Save preferences in localStorage for persistent memory
+    localStorage.setItem(
+      'cookie-consent',
+      JSON.stringify({
+        ...newConsent,
+        hasChosen: true,
+      })
+    );
+  };
 }
