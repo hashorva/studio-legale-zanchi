@@ -4,6 +4,7 @@ import { Playfair_Display, Inter } from 'next/font/google';
 import './globals.css';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import CookieBanner from '@/components/CookieBanner';
 import { ChatProvider } from '@/contexts/ChatContext';
 import { CookieConsentProvider } from '@/contexts/CookieConsentContext';
 import { ThemeProvider } from 'next-themes';
@@ -102,6 +103,7 @@ export default function RootLayout({
                 <main className="flex-grow">{children}</main>
                 {/* The top padding should be defined by the height of the menu bar to avoid overlap */}
                 <Footer />
+                <CookieBanner />
               </div>
             </CookieConsentProvider>
           </ChatProvider>
