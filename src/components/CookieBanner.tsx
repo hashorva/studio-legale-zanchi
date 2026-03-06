@@ -5,7 +5,7 @@ import { useCookieConsent } from '@/contexts/CookieConsentContext';
 import { Switch } from '@/components/ui/switch';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 
 type ConsentKey = 'essential' | 'analytics' | 'thirdParty';
 
@@ -20,13 +20,15 @@ const cookieCategories: CookieCategory[] = [
   {
     key: 'essential',
     label: 'Cookie tecnici necessari',
-    description: 'Necessari per il funzionamento del sito.',
+    description:
+      'Sempre attivi. Necessari per il corretto funzionamento del sito.',
     locked: true,
   },
   {
     key: 'analytics',
     label: 'Cookie analitici',
-    description: 'Ci aiutano a capire come viene usato il sito.',
+    description:
+      'Ci aiutano a capire, in forma aggregata, come viene utilizzato il sito per migliorarne contenuti e prestazioni.',
     locked: false,
   },
   {
@@ -38,6 +40,7 @@ const cookieCategories: CookieCategory[] = [
   },
 ];
 export default function CookieBanner() {
+  const prefersReducedMotion = useReducedMotion();
   const {
     consent,
     hasChosen,
@@ -115,10 +118,19 @@ export default function CookieBanner() {
                 <AnimatePresence>
                   {showPreferences && (
                     <motion.div
-                      initial={{ opacity: 0, height: 0 }}
+                      initial={{
+                        opacity: 0,
+                        height: prefersReducedMotion ? 'auto' : 0,
+                      }}
                       animate={{ opacity: 1, height: 'auto' }}
-                      exit={{ opacity: 0, height: 0 }}
-                      transition={{ duration: 0.25, ease: 'easeInOut' }}
+                      exit={{
+                        opacity: 0,
+                        height: prefersReducedMotion ? 'auto' : 0,
+                      }}
+                      transition={{
+                        duration: prefersReducedMotion ? 0 : 0.25,
+                        ease: 'easeInOut',
+                      }}
                       className="mb-4 rounded-xl border border-border bg-muted/30 overflow-hidden"
                     >
                       <div className="px-4 pt-4 pb-3 border-b border-border">
@@ -160,6 +172,7 @@ export default function CookieBanner() {
                                   }
                                 }}
                                 disabled={category.locked}
+                                aria-label={category.label}
                               />
                             </div>
                             <p className="text-xs text-muted-foreground mt-1">
@@ -192,7 +205,7 @@ export default function CookieBanner() {
                 <div className="flex gap-2 mt-4 justify-between">
                   <Button
                     variant="subtle"
-                    onClick={() => setShowPreferences(!showPreferences)}
+                    onClick={() => setShowPreferences((prev) => !prev)}
                   >
                     {showPreferences ? 'Chiudi preferenze' : 'Personalizza'}
                   </Button>
