@@ -21,7 +21,8 @@ const cookieCategories = [
   {
     key: 'thirdParty',
     label: 'Contenuti esterni',
-    description: 'Consentono di visualizzare contenuti esterni come Google Maps, che possono raccogliere dati di navigazione.',
+    description:
+      'Consentono di visualizzare contenuti esterni come Google Maps, che possono raccogliere dati di navigazione.',
     locked: false,
   },
 ];
@@ -63,54 +64,110 @@ export default function CookieBanner() {
                   La tua Privacy
                 </h2>
                 <p className="text-sm text-muted-foreground mb-4">
-                  Utilizziamo cookie per migliorare la tua esperienza,
-                  analizzare il traffico e mostrare contenuti personalizzati.
-                  Puoi scegliere quali cookie accettare.
+                  Utilizziamo cookie tecnici necessari al funzionamento del sito
+                  e, solo con il tuo consenso, cookie analitici e servizi di
+                  terze parti. Puoi accettare tutti, rifiutare quelli non
+                  necessari oppure gestire le tue preferenze in modo granulare.
                 </p>
-
+                <p className="text-xs text-muted-foreground/70 mb-4">
+                  Per maggiori informazioni consulta la{' '}
+                  <a
+                    href="/cookie-policy"
+                    className="underline hover:text-primary"
+                  >
+                    Cookie Policy
+                  </a>{' '}
+                  e la{' '}
+                  <a
+                    href="/privacy-policy"
+                    className="underline hover:text-primary"
+                  >
+                    Privacy Policy
+                  </a>
+                  .
+                </p>
                 {/* Preferences Panel - only visible when showPreferences is true */}
                 {showPreferences && (
-                  <div>
+                  <div className="mb-4 rounded-xl border border-border bg-muted/30 overflow-hidden">
+                    <div className="px-4 pt-4 pb-3 border-b border-border">
+                      <h3 className="text-sm font-semibold text-foreground">
+                        Gestisci le preference
+                      </h3>
+                      <p className="text-xs text-muted-foreground mt-0.5">
+                        I cookie tecnici sono sempre attivi. Tutte le altre
+                        categorie sono facoltative e vengono attivate solo con
+                        il tuo consenso.
+                      </p>
+                    </div>
                     {/* Cookie Category row */}
                     <div>
-                      {cookieCategories.map((categorie) => (
-                        <div key={categorie.key}>
-                          <div>
-                            <span>{categorie.label}</span>
-                            <Switch
-                              checked={
-                                localConsent[
-                                  categorie.key as keyof typeof localConsent
-                                ] as boolean
-                              }
-                              onCheckedChange={() => {
-                                if (!categorie.locked) {
-                                  handleToggle(
-                                    categorie.key as 'analytics' | 'thirdParty'
-                                  );
+                      {cookieCategories.map((category, index) => (
+                        <div
+                          key={category.key}
+                          className={`flex flex-col px-4 py-3 ${index !== cookieCategories.length - 1 ? 'border-b border-border' : ''}`}
+                        >
+                          <div className="flex items-center justify-between">
+                            <div className="flex items-center gap-2">
+                              <span className="text-sm font-medium text-foreground">
+                                {category.label}
+                              </span>
+                              {category.locked && (
+                                <span className="text-xs text-muted-foreground bg-muted px-1.5 py-0.5 rounded-full">
+                                  Sempre attivi
+                                </span>
+                              )}
+                              </div>
+                              <Switch
+                                checked={
+                                  localConsent[
+                                    category.key as keyof typeof localConsent
+                                  ] as boolean
                                 }
-                              }}
-                              disabled={categorie.locked}
-                            />
+                                onCheckedChange={() => {
+                                  if (!category.locked) {
+                                    handleToggle(
+                                      category.key as 'analytics' | 'thirdParty'
+                                    );
+                                  }
+                                }}
+                                disabled={category.locked}
+                              />
+
                           </div>
-                          <p>{categorie.description}</p>
+                          <p className="text-xs text-muted-foreground mt-1">
+                            {category.description}
+                          </p>
                         </div>
                       ))}
                     </div>
-                    <Button className='w-full bg-primary hover:bg-primary-dark text-white mb-4' onClick={() => savePreferences(localConsent)}>
-                      Salva Preferenze
-                    </Button>
+                    {/* Panel actions */}
+                    <div className='flex justify-end gap-2 px-4 py-4 border-t border-border'>
+                      <Button
+                      variant='outline'
+                      size='sm'
+                      onClick={() => setShowPreferences(false)}>
+                        Annulla
+                      </Button>
+                      <Button
+                      size='sm'
+                        className=" bg-primary hover:bg-primary-dark text-white"
+                        onClick={() => savePreferences(localConsent)}
+                      >
+                        Salva Preferenze
+                      </Button>
+                    </div>
                   </div>
                 )}
                 {/* Action buttons */}
-                <div className="flex flex-wrap gap-2 mt-4">
+                <div className="flex gap-2 mt-4 justify-between">
                   <Button
                     variant="subtle"
                     onClick={() => setShowPreferences(!showPreferences)}
                   >
-                    Preferenze
+                    {showPreferences ? 'Chiudi Preferenze' : 'Personalizza'}
                   </Button>
-                  <Button variant="subtle" onClick={rejectAll} >
+                  <div className="flex gap-2">
+                  <Button variant="subtle" onClick={rejectAll}>
                     Rifiuta tutti
                   </Button>
                   <Button
@@ -119,6 +176,7 @@ export default function CookieBanner() {
                   >
                     Accetta tutti
                   </Button>
+                  </div>
                 </div>
               </div>
               {/* Layer 2 — positioning (fixed bottom) */}
