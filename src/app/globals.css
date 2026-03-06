@@ -8,7 +8,7 @@
   --color-foreground:           var(--foreground);
   --color-card:                 var(--card);
   --color-card-foreground:      var(--card-foreground);
-  --color-primary:              var(--primary);
+  --color-primary:              oklch(0.313 0.099 258.1);
   --color-primary-foreground:   var(--primary-foreground);
   --color-primary-dark:         var(--primary-dark);
   --color-accent:               var(--accent);
