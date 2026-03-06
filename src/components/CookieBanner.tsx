@@ -5,6 +5,7 @@ import { useCookieConsent } from '@/contexts/CookieConsentContext';
 import { Switch } from '@/components/ui/switch';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
+import { AnimatePresence, motion } from 'framer-motion';
 
 type ConsentKey = 'essential' | 'analytics' | 'thirdParty';
 
@@ -111,74 +112,82 @@ export default function CookieBanner() {
                   .
                 </p>
                 {/* Preferences Panel - only visible when showPreferences is true */}
-                {showPreferences && (
-                  <div className="mb-4 rounded-xl border border-border bg-muted/30 overflow-hidden">
-                    <div className="px-4 pt-4 pb-3 border-b border-border">
-                      <h3 className="text-sm font-semibold text-foreground">
-                        Gestisci le preferenze
-                      </h3>
-                      <p className="text-xs text-muted-foreground mt-0.5">
-                        I cookie tecnici sono sempre attivi. Tutte le altre
-                        categorie sono facoltative e vengono attivate solo con
-                        il tuo consenso.
-                      </p>
-                    </div>
-                    {/* Cookie Category row */}
-                    <div>
-                      {cookieCategories.map((category, index) => (
-                        <div
-                          key={category.key}
-                          className={`flex flex-col px-4 py-3 ${index !== cookieCategories.length - 1 ? 'border-b border-border' : ''}`}
-                        >
-                          <div className="flex items-center justify-between">
-                            <div className="flex items-center gap-2">
-                              <span className="text-sm font-medium text-foreground">
-                                {category.label}
-                              </span>
-                              {category.locked && (
-                                <span className="text-xs text-muted-foreground bg-muted px-1.5 py-0.5 rounded-full">
-                                  Sempre attivi
+                <AnimatePresence>
+                  {showPreferences && (
+                    <motion.div
+                      initial={{ opacity: 0, height: 0 }}
+                      animate={{ opacity: 1, height: 'auto' }}
+                      exit={{ opacity: 0, height: 0 }}
+                      transition={{ duration: 0.25, ease: 'easeInOut' }}
+                      className="mb-4 rounded-xl border border-border bg-muted/30 overflow-hidden"
+                    >
+                      <div className="px-4 pt-4 pb-3 border-b border-border">
+                        <h3 className="text-sm font-semibold text-foreground">
+                          Gestisci le preferenze
+                        </h3>
+                        <p className="text-xs text-muted-foreground mt-0.5">
+                          I cookie tecnici sono sempre attivi. Tutte le altre
+                          categorie sono facoltative e vengono attivate solo con
+                          il tuo consenso.
+                        </p>
+                      </div>
+                      {/* Cookie Category row */}
+                      <div>
+                        {cookieCategories.map((category, index) => (
+                          <div
+                            key={category.key}
+                            className={`flex flex-col px-4 py-3 ${index !== cookieCategories.length - 1 ? 'border-b border-border' : ''}`}
+                          >
+                            <div className="flex items-center justify-between">
+                              <div className="flex items-center gap-2">
+                                <span className="text-sm font-medium text-foreground">
+                                  {category.label}
                                 </span>
-                              )}
+                                {category.locked && (
+                                  <span className="text-xs text-muted-foreground bg-muted px-1.5 py-0.5 rounded-full">
+                                    Sempre attivi
+                                  </span>
+                                )}
+                              </div>
+                              <Switch
+                                checked={Boolean(localConsent[category.key])}
+                                onCheckedChange={() => {
+                                  if (
+                                    !category.locked &&
+                                    category.key !== 'essential'
+                                  ) {
+                                    handleToggle(category.key);
+                                  }
+                                }}
+                                disabled={category.locked}
+                              />
                             </div>
-                            <Switch
-                              checked={Boolean(localConsent[category.key])}
-                              onCheckedChange={() => {
-                                if (
-                                  !category.locked &&
-                                  category.key !== 'essential'
-                                ) {
-                                  handleToggle(category.key);
-                                }
-                              }}
-                              disabled={category.locked}
-                            />
+                            <p className="text-xs text-muted-foreground mt-1">
+                              {category.description}
+                            </p>
                           </div>
-                          <p className="text-xs text-muted-foreground mt-1">
-                            {category.description}
-                          </p>
-                        </div>
-                      ))}
-                    </div>
-                    {/* Panel actions */}
-                    <div className="flex justify-end gap-2 px-4 py-4 border-t border-border">
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => setShowPreferences(false)}
-                      >
-                        Annulla
-                      </Button>
-                      <Button
-                        size="sm"
-                        className=" bg-primary hover:bg-primary-dark text-white"
-                        onClick={handleSavePreferences}
-                      >
-                        Salva preferenze
-                      </Button>
-                    </div>
-                  </div>
-                )}
+                        ))}
+                      </div>
+                      {/* Panel actions */}
+                      <div className="flex justify-end gap-2 px-4 py-4 border-t border-border">
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => setShowPreferences(false)}
+                        >
+                          Annulla
+                        </Button>
+                        <Button
+                          size="sm"
+                          className=" bg-primary hover:bg-primary-dark text-white"
+                          onClick={handleSavePreferences}
+                        >
+                          Salva preferenze
+                        </Button>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
                 {/* Action buttons */}
                 <div className="flex gap-2 mt-4 justify-between">
                   <Button
