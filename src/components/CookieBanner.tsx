@@ -8,20 +8,20 @@ import { Button } from '@/components/ui/button';
 const cookieCategories = [
   {
     key: 'essential',
-    label: 'Cokkie essenziali',
+    label: 'Cookie tecnici necessari',
     description: 'Necessari per il funzionamento del sito.',
     locked: true,
   },
   {
     key: 'analytics',
-    label: 'Cokkie analitici',
+    label: 'Cookie analitici',
     description: 'Ci aiutano a capire come viene usato il sito.',
     locked: false,
   },
   {
-    key: 'maps',
-    label: 'Google Maps',
-    description: 'Necessari per mostrare la mappa dello studio.',
+    key: 'thirdParty',
+    label: 'Contenuti esterni',
+    description: 'Consentono di visualizzare contenuti esterni come Google Maps, che possono raccogliere dati di navigazione.',
     locked: false,
   },
 ];
@@ -37,7 +37,7 @@ export default function CookieBanner() {
   } = useCookieConsent();
   const [showPreferences, setShowPreferences] = useState(false);
   const [localConsent, setLocalConsent] = useState(consent);
-  const handleToggle = (key: 'analytics' | 'maps') => {
+  const handleToggle = (key: 'analytics' | 'thirdParty') => {
     setLocalConsent((prev) => ({
       ...prev,
       [key]: !prev[key],
@@ -86,7 +86,7 @@ export default function CookieBanner() {
                               onCheckedChange={() => {
                                 if (!categorie.locked) {
                                   handleToggle(
-                                    categorie.key as 'analytics' | 'maps'
+                                    categorie.key as 'analytics' | 'thirdParty'
                                   );
                                 }
                               }}
@@ -97,9 +97,9 @@ export default function CookieBanner() {
                         </div>
                       ))}
                     </div>
-                    <button onClick={() => savePreferences(localConsent)}>
+                    <Button className='w-full bg-primary hover:bg-primary-dark text-white mb-4' onClick={() => savePreferences(localConsent)}>
                       Salva Preferenze
-                    </button>
+                    </Button>
                   </div>
                 )}
                 {/* Action buttons */}

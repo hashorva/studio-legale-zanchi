@@ -6,7 +6,7 @@ import { createContext, useContext, useState, ReactNode } from 'react';
 type CookieConsent = {
   essential: true; // always true, hardcoded - cannot be changed
   analytics: boolean;
-  maps: boolean;
+  thirdParty: boolean;
 };
 
 // Everything the context broadcasts
@@ -30,7 +30,7 @@ export function CookieConsentProvider({ children }: { children: ReactNode }) {
     const defaultConsent = {
       essential: true as const,
       analytics: false,
-      maps: false,
+      thirdParty: false,
     };
 
     // Guard against server (Next.js runs on server too)
@@ -47,7 +47,7 @@ export function CookieConsentProvider({ children }: { children: ReactNode }) {
     return {
       essential: true as const,
       analytics: parsed.analytics,
-      maps: parsed.maps,
+      thirdParty: parsed.thirdParty,
     };
   });
   const [hasChosen, setHasChosen] = useState<boolean>(() => {
@@ -70,7 +70,7 @@ export function CookieConsentProvider({ children }: { children: ReactNode }) {
     const newConsent = {
       essential: true as const,
       analytics: true,
-      maps: true,
+      thirdParty: true,
     };
 
     setConsent(newConsent);
@@ -89,7 +89,7 @@ export function CookieConsentProvider({ children }: { children: ReactNode }) {
     const newConsent = {
       essential: true as const,
       analytics: false,
-      maps: false,
+      thirdParty: false,
     };
     setConsent(newConsent);
     setHasChosen(true);
