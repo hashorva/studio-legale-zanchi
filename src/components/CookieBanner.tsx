@@ -64,7 +64,10 @@ export default function CookieBanner() {
   }, [isPreferencesOpen]);
 
   const handleSavePreferences = () => {
-    savePreferences(localConsent);
+    savePreferences({
+      analytics: localConsent.analytics,
+      thirdParty: localConsent.thirdParty,
+    });
     setShowPreferences(false);
   };
 
