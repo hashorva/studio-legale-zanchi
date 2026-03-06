@@ -4,8 +4,18 @@ import { useState, useEffect } from 'react';
 import { useCookieConsent } from '@/contexts/CookieConsentContext';
 import { Switch } from '@/components/ui/switch';
 import { Button } from '@/components/ui/button';
+import Link from 'next/link';
 
-const cookieCategories = [
+type ConsentKey = 'essential' | 'analytics' | 'thirdParty';
+
+type CookieCategory = {
+  key: ConsentKey;
+  label: string;
+  description: string;
+  locked: boolean;
+};
+
+const cookieCategories: CookieCategory[] = [
   {
     key: 'essential',
     label: 'Cookie tecnici necessari',
@@ -34,7 +44,6 @@ export default function CookieBanner() {
     rejectAll,
     savePreferences,
     isPreferencesOpen,
-    openPreferences,
   } = useCookieConsent();
   const [showPreferences, setShowPreferences] = useState(false);
   const [localConsent, setLocalConsent] = useState(consent);
@@ -43,7 +52,18 @@ export default function CookieBanner() {
     setLocalConsent(consent);
   }, [consent]);
 
-  const handleToggle = (key: 'analytics' | 'thirdParty') => {
+  useEffect(() => {
+    if (isPreferencesOpen) {
+      setShowPreferences(true);
+    }
+  }, [isPreferencesOpen]);
+
+  const handleSavePreferences = () => {
+    savePreferences(localConsent);
+    setShowPreferences(false);
+  };
+
+  const handleToggle = (key: Exclude<ConsentKey, 'essential'>) => {
     setLocalConsent((prev) => ({
       ...prev,
       [key]: !prev[key],
@@ -65,8 +85,7 @@ export default function CookieBanner() {
             <div>
               <div>
                 <h2 className="font-serif text-xl font-semibold text-primary mb-2">
-                  {' '}
-                  La tua Privacy
+                  La tua privacy
                 </h2>
                 <p className="text-sm text-muted-foreground mb-4">
                   Utilizziamo cookie tecnici necessari al funzionamento del sito
@@ -76,19 +95,19 @@ export default function CookieBanner() {
                 </p>
                 <p className="text-xs text-muted-foreground/70 mb-4">
                   Per maggiori informazioni consulta la{' '}
-                  <a
+                  <Link
                     href="/cookie-policy"
                     className="underline hover:text-primary"
                   >
                     Cookie Policy
-                  </a>{' '}
+                  </Link>{' '}
                   e la{' '}
-                  <a
+                  <Link
                     href="/privacy-policy"
                     className="underline hover:text-primary"
                   >
                     Privacy Policy
-                  </a>
+                  </Link>
                   .
                 </p>
                 {/* Preferences Panel - only visible when showPreferences is true */}
@@ -96,7 +115,7 @@ export default function CookieBanner() {
                   <div className="mb-4 rounded-xl border border-border bg-muted/30 overflow-hidden">
                     <div className="px-4 pt-4 pb-3 border-b border-border">
                       <h3 className="text-sm font-semibold text-foreground">
-                        Gestisci le preference
+                        Gestisci le preferenze
                       </h3>
                       <p className="text-xs text-muted-foreground mt-0.5">
                         I cookie tecnici sono sempre attivi. Tutte le altre
@@ -123,16 +142,13 @@ export default function CookieBanner() {
                               )}
                             </div>
                             <Switch
-                              checked={
-                                localConsent[
-                                  category.key as keyof typeof localConsent
-                                ] as boolean
-                              }
+                              checked={Boolean(localConsent[category.key])}
                               onCheckedChange={() => {
-                                if (!category.locked) {
-                                  handleToggle(
-                                    category.key as 'analytics' | 'thirdParty'
-                                  );
+                                if (
+                                  !category.locked &&
+                                  category.key !== 'essential'
+                                ) {
+                                  handleToggle(category.key);
                                 }
                               }}
                               disabled={category.locked}
@@ -156,9 +172,9 @@ export default function CookieBanner() {
                       <Button
                         size="sm"
                         className=" bg-primary hover:bg-primary-dark text-white"
-                        onClick={() => savePreferences(localConsent)}
+                        onClick={handleSavePreferences}
                       >
-                        Salva Preferenze
+                        Salva preferenze
                       </Button>
                     </div>
                   </div>
@@ -169,7 +185,7 @@ export default function CookieBanner() {
                     variant="subtle"
                     onClick={() => setShowPreferences(!showPreferences)}
                   >
-                    {showPreferences ? 'Chiudi Preferenze' : 'Personalizza'}
+                    {showPreferences ? 'Chiudi preferenze' : 'Personalizza'}
                   </Button>
                   <div className="flex gap-2">
                     <Button variant="subtle" onClick={rejectAll}>
@@ -184,9 +200,6 @@ export default function CookieBanner() {
                   </div>
                 </div>
               </div>
-              {/* Layer 2 — positioning (fixed bottom) */}
-              {/* Layer 3 — styling and colors */}
-              {/* Layer 4 — the preferences panel */}
             </div>
           </div>
         </div>
