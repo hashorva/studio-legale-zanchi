@@ -48,6 +48,7 @@ export default function CookieBanner() {
     rejectAll,
     savePreferences,
     isPreferencesOpen,
+    closePreferences,
   } = useCookieConsent();
   const [showPreferences, setShowPreferences] = useState(false);
   const [localConsent, setLocalConsent] = useState(consent);
@@ -186,7 +187,10 @@ export default function CookieBanner() {
                         <Button
                           variant="outline"
                           size="sm"
-                          onClick={() => setShowPreferences(false)}
+                          onClick={() => {
+                            setShowPreferences(false);
+                            closePreferences();
+                          }}
                         >
                           Annulla
                         </Button>

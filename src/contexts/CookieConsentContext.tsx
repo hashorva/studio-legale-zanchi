@@ -40,7 +40,7 @@ function loadSavedConsent() {
 
   // If nothing saved, return default
   if (!saved) return null;
-// Guard what is in the user localStorage, you never know what you can find
+// Validate localStorage content before using it as consent state
   try {
     return JSON.parse(saved);
   } catch {
