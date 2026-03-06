@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useCookieConsent } from '@/contexts/CookieConsentContext';
 import { Switch } from '@/components/ui/switch';
 import { Button } from '@/components/ui/button';
@@ -38,6 +38,11 @@ export default function CookieBanner() {
   } = useCookieConsent();
   const [showPreferences, setShowPreferences] = useState(false);
   const [localConsent, setLocalConsent] = useState(consent);
+  // Sync localConsent when context consent changes
+  useEffect(() => {
+    setLocalConsent(consent);
+  }, [consent]);
+
   const handleToggle = (key: 'analytics' | 'thirdParty') => {
     setLocalConsent((prev) => ({
       ...prev,
@@ -116,23 +121,22 @@ export default function CookieBanner() {
                                   Sempre attivi
                                 </span>
                               )}
-                              </div>
-                              <Switch
-                                checked={
-                                  localConsent[
-                                    category.key as keyof typeof localConsent
-                                  ] as boolean
+                            </div>
+                            <Switch
+                              checked={
+                                localConsent[
+                                  category.key as keyof typeof localConsent
+                                ] as boolean
+                              }
+                              onCheckedChange={() => {
+                                if (!category.locked) {
+                                  handleToggle(
+                                    category.key as 'analytics' | 'thirdParty'
+                                  );
                                 }
-                                onCheckedChange={() => {
-                                  if (!category.locked) {
-                                    handleToggle(
-                                      category.key as 'analytics' | 'thirdParty'
-                                    );
-                                  }
-                                }}
-                                disabled={category.locked}
-                              />
-
+                              }}
+                              disabled={category.locked}
+                            />
                           </div>
                           <p className="text-xs text-muted-foreground mt-1">
                             {category.description}
@@ -141,15 +145,16 @@ export default function CookieBanner() {
                       ))}
                     </div>
                     {/* Panel actions */}
-                    <div className='flex justify-end gap-2 px-4 py-4 border-t border-border'>
+                    <div className="flex justify-end gap-2 px-4 py-4 border-t border-border">
                       <Button
-                      variant='outline'
-                      size='sm'
-                      onClick={() => setShowPreferences(false)}>
+                        variant="outline"
+                        size="sm"
+                        onClick={() => setShowPreferences(false)}
+                      >
                         Annulla
                       </Button>
                       <Button
-                      size='sm'
+                        size="sm"
                         className=" bg-primary hover:bg-primary-dark text-white"
                         onClick={() => savePreferences(localConsent)}
                       >
@@ -167,15 +172,15 @@ export default function CookieBanner() {
                     {showPreferences ? 'Chiudi Preferenze' : 'Personalizza'}
                   </Button>
                   <div className="flex gap-2">
-                  <Button variant="subtle" onClick={rejectAll}>
-                    Rifiuta tutti
-                  </Button>
-                  <Button
-                    className="bg-primary hover:bg-primary-dark text-white"
-                    onClick={acceptAll}
-                  >
-                    Accetta tutti
-                  </Button>
+                    <Button variant="subtle" onClick={rejectAll}>
+                      Rifiuta tutti
+                    </Button>
+                    <Button
+                      className="bg-primary hover:bg-primary-dark text-white"
+                      onClick={acceptAll}
+                    >
+                      Accetta tutti
+                    </Button>
                   </div>
                 </div>
               </div>
