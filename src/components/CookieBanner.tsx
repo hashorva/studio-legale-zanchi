@@ -35,7 +35,7 @@ const cookieCategories: CookieCategory[] = [
     key: 'thirdParty',
     label: 'Contenuti esterni',
     description:
-      'Consentono di visualizzare contenuti esterni come Google Maps, che possono raccogliere dati di navigazione.',
+      'Consentono di visualizzare contenuti esterni, come Google Maps. Questi servizi di terze parti possono raccogliere dati di navigazione solo se attivati.',
     locked: false,
   },
 ];
