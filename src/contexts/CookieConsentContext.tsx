@@ -53,7 +53,7 @@ function isValidStoredConsent(value: unknown): value is StoredCookieConsent {
   );
 }
 
-function loadSavedConsent() {
+function loadSavedConsent(): StoredCookieConsent | null {
   // Guard against server (Next.js runs on server too)
   if (typeof window === 'undefined') return null;
 
@@ -72,22 +72,39 @@ function loadSavedConsent() {
   }
 }
 
-export function CookieConsentProvider({ children }: { children: ReactNode }) {
-  const [consent, setConsent] = useState<CookieConsent>(() => {
-    const saved = loadSavedConsent();
+function persistConsent(consent: CookieConsent) {
+  localStorage.setItem(
+    'cookie-consent',
+    JSON.stringify({ ...consent, hasChosen: true })
+  );
+}
 
-    return saved
-      ? {
-          essential: true as const,
-          analytics: saved.analytics,
-          thirdParty: saved.thirdParty,
-        }
-      : defaultConsent;
-  });
-  const [hasChosen, setHasChosen] = useState<boolean>(() => {
-    const saved = loadSavedConsent();
-    return saved ? saved.hasChosen : false;
-  });
+function getInitialConsentState() {
+  const saved = loadSavedConsent();
+
+  if (!saved) {
+    return {
+      consent: defaultConsent,
+      hasChosen: false,
+    };
+  }
+
+  return {
+    consent: {
+      essential: true as const,
+      analytics: saved.analytics,
+      thirdParty: saved.thirdParty,
+    },
+    hasChosen: saved.hasChosen,
+  };
+}
+
+export function CookieConsentProvider({ children }: { children: ReactNode }) {
+  const initialState = getInitialConsentState();
+
+  const [consent, setConsent] = useState<CookieConsent>(initialState.consent);
+  const [hasChosen, setHasChosen] = useState<boolean>(initialState.hasChosen);
+
   const [isPreferencesOpen, setIsPreferencesOpen] = useState(false);
 
   const acceptAll = () => {
@@ -102,13 +119,7 @@ export function CookieConsentProvider({ children }: { children: ReactNode }) {
     closePreferences();
 
     // Save preferences in localStorage for persistent memory
-    localStorage.setItem(
-      'cookie-consent',
-      JSON.stringify({
-        ...newConsent,
-        hasChosen: true,
-      })
-    );
+    persistConsent(newConsent);
   };
   const rejectAll = () => {
     setConsent(defaultConsent);
@@ -116,13 +127,7 @@ export function CookieConsentProvider({ children }: { children: ReactNode }) {
     closePreferences();
 
     //Save preferences in localStorage for persistent memory
-    localStorage.setItem(
-      'cookie-consent',
-      JSON.stringify({
-        ...defaultConsent,
-        hasChosen: true,
-      })
-    );
+    persistConsent(defaultConsent);
   };
   const openPreferences = () => {
     setIsPreferencesOpen(true);
@@ -142,13 +147,7 @@ export function CookieConsentProvider({ children }: { children: ReactNode }) {
     setHasChosen(true);
 
     // Save preferences in localStorage for persistent memory
-    localStorage.setItem(
-      'cookie-consent',
-      JSON.stringify({
-        ...normalizedConsent,
-        hasChosen: true,
-      })
-    );
+    persistConsent(normalizedConsent);
 
     closePreferences();
   };
