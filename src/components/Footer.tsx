@@ -9,6 +9,7 @@ import {
   ChevronRight,
   type LucideIcon,
 } from 'lucide-react';
+import CookiePreferencesButton from '@/components/CookiePreferencesButton';
 
 // Type definition
 type NavLink = {
@@ -110,7 +111,8 @@ export default function Footer() {
           riservati.
         </p>
         <p>P.IVA: 12345678910</p>
-        <ul className="flex justify-center gap-4 flex-wrap mt-4">
+        <ul className="flex justify-center items-center gap-4 flex-wrap">
+          <CookiePreferencesButton />
           <li>
             <Link
               href="/privacy-policy"
