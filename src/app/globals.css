@@ -48,6 +48,15 @@
   --border:             oklch(0.78 0 0);           /* #C4C4C4 */
   --input:              oklch(0.78 0 0);           /* #C4C4C4 */
   --ring:               oklch(0.424 0.194 18.2);   /* #BF1534 */
+
+  /* Shared viewport padding — the Apple pattern.
+   Used by both constrained headers (via max-w-7xl + px-5)
+   and edge-to-edge scroll rows (via margin-inline-start).
+
+   Small screens: 1.25rem (20px)
+   Large screens: centers content to match max-w-7xl (80rem) */
+  --section-padding: max(1.25rem, calc((100vw - 80rem) / 2 + 1.25rem));
+
 }
 
 .dark {
@@ -70,4 +79,14 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+/* Hide scrollbar for scroll rows — all browsers */
+.scrollbar-none {
+  scrollbar-width: none;          /* Firefox */
+  -ms-overflow-style: none;       /* IE/Edge */
+  -webkit-overflow-scrolling: touch; /* Smooth iOS */
+}
+.scrollbar-none::-webkit-scrollbar {
+  display: none;                  /* Chrome/Safari */
 }

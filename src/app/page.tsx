@@ -1,34 +1,15 @@
 import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
 import Link from 'next/link';
-import { servizi } from '@/lib/services';
 import ChatWidget from '@/components/ChatWidget';
 import Hero from '@/components/Hero';
+import { ServiziSection } from '@/components/sections/ServiziSection';
 
 export default function Home() {
   return (
     <>
       <Hero />
 
-      {/* Services Section */}
-      <section className="mb-20 max-w-7xl mx-auto px-4 py-20">
-        <h2 className="text-3xl font-serif font-medium mb-8 text-center">
-          I nostri servizi
-        </h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {servizi.map((service, index) => (
-            <Card key={index} className="hover:shadow-lg transition-shadow">
-              <CardContent className="p-6">
-                <h3 className="text-xl font-bold mb-2">{service.title}</h3>
-                <p className="text-muted-foreground">
-                  {service.shortDescription}
-                </p>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-      </section>
-
+      <ServiziSection />
       {/* About Section */}
       <section className="mb-20 max-w-7xl mx-auto px-4">
         <div className="bg-muted/50 rounded-lg p-8">
