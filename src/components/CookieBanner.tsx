@@ -96,7 +96,7 @@ export default function CookieBanner() {
       <div className="fixed bottom-0 left-0 right-0 z-50 p-4 md:p-6">
         <div className="max-w-2xl mx-auto">
           {/* Card */}
-          <div className="rounded-2xl border border-white/20 bg-white/50 backdrop-blur-md [-webkit-backdrop-filter:blur(12px)] shadow-2xl max-h-[90vh] flex flex-col">
+          <div className="rounded-2xl border border-white/20 bg-white/50 backdrop-blur-md shadow-2xl max-h-[90vh] flex flex-col">
             <div className="overflow-y-auto flex-1 p-6">
               <h2 className="font-serif text-xl font-semibold text-primary mb-2">
                 La tua privacy

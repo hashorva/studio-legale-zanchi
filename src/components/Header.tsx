@@ -106,7 +106,7 @@ export default function Header() {
         className="fixed top-0 z-50 w-full bg-background/90 backdrop-blur"
         initial={false}
       >
-        <div className="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
+        <div className="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center ">
           {/* Logo — left side */}
           <Link
             href="/"

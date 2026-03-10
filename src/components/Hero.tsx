@@ -7,17 +7,17 @@ export default function Hero() {
   return (
     <section className="relative bg-[#010101] w-full">
       <div
-        className="max-w-7xl mx-auto"
-        style={{ marginTop: 'var(--header-height, 5rem)' }}
+        className="max-w-7xl mx-auto pt-15 md:pt-11 lg:pt-0"
       >
         <div
           className="
-          relative min-h-[600px] h-[610px]
+          relative min-h-[600px]
 
           md:h-auto md:min-h-[50vh] md:grid md:grid-cols-[1.1fr_1fr]
 
           lg:min-h-[800px] lg:grid-cols-[1.5fr_1fr]
         "
+
         >
           {/* Right: Photo (bottom-aligned) */}
           <div
