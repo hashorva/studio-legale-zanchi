@@ -72,26 +72,23 @@ export function ServiceCard({ service }: ServiceCardProps) {
       </p>
 
       {/* ── Expanding CTA Toolbar ── */}
-<div
-  className={`mt-4 flex justify-end`}
->
-  <div
-    className="h-11 rounded-full bg-black/[0.06] transition-all duration-350"
-    style={{
-      width: isExpanded ? '100%' : 44,
-    }}
-  >
-    <button
-      onClick={() => setIsExpanded(!isExpanded)}
-      className="w-11 h-11 rounded-full bg-foreground text-background flex items-center justify-center cursor-pointer float-right ml-auto"
-    >
-      <Plus className={`w-6 h-6 transition-transform duration-300 ${isExpanded ? 'rotate-45' : 'rotate-0'}`}
-      style={{
-        transform: isExpanded ? 'rotate(45deg)' : 'rotate(0deg)'
-      }}/>
-    </button>
-  </div>
-</div>
+      <div className={`mt-4 flex justify-end`}>
+        <div
+          className="h-11 rounded-full bg-black/[0.06] transition-all duration-350"
+          style={{
+            width: isExpanded ? '100%' : 44,
+          }}
+        >
+          <button
+            onClick={() => setIsExpanded(!isExpanded)}
+            className="w-11 h-11 rounded-full bg-foreground text-background flex items-center justify-center cursor-pointer float-right ml-auto"
+          >
+            <Plus
+              className={`w-6 h-6 transition-transform duration-300 ${isExpanded ? 'rotate-45' : 'rotate-0'}`}
+            />
+          </button>
+        </div>
+      </div>
     </article>
   );
 }

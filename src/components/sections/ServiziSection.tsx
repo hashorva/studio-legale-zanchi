@@ -30,7 +30,7 @@ export function ServiziSection() {
       <div className="max-w-7xl mx-auto px-5 mb-12">
         <h2
           id="servizi-heading"
-          className="text-2xl font-bold tracking-tighter leading-none text-foreground mb-2"
+          className={`font-serif text-5xl font-semibold tracking-tighter leading-none text-foreground mb-2`}
         >
           I Nostri Servizi
         </h2>
