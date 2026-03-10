@@ -119,7 +119,7 @@ export function ScrollRow({ children, labelledBy }: ScrollRowProps) {
             <li
               role="listitem"
               tabIndex={-1}
-              className="snap-start snap-always shrink-0"
+              className="snap-start snap-always shrink-0 flex"
             >
               {child}
             </li>

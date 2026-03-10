@@ -28,9 +28,9 @@ export function ServiceCard({ service }: ServiceCardProps) {
     <article
       className="
         relative flex flex-col
-        w-80 min-w-[320px] min-h-[380px]
-        p-7 pb-5
-        rounded-2xl bg-black/[0.03]
+        w-80 min-w-[320px] h-full
+        p-4
+        rounded-4xl bg-black/[0.03]
       "
     >
       {/* ── Icon ── */}
@@ -72,93 +72,26 @@ export function ServiceCard({ service }: ServiceCardProps) {
       </p>
 
       {/* ── Expanding CTA Toolbar ── */}
-      <div className="mt-4">
-        <div
-          className="
-            flex items-center
-            rounded-full bg-black/[0.06]
-            p-0.5
-            overflow-hidden
-            ml-auto
-          "
-          style={{
-            width: isExpanded ? '100%' : 42,
-            maxWidth: isExpanded ? 320 : 42,
-            transition: isExpanded
-              ? `width ${TIMING.expand}ms cubic-bezier(0.4, 0, 0.2, 1), max-width ${TIMING.expand}ms cubic-bezier(0.4, 0, 0.2, 1)`
-              : `width 300ms cubic-bezier(0.4, 0, 0.2, 1) ${TIMING.collapseFade}ms, max-width 300ms cubic-bezier(0.4, 0, 0.2, 1) ${TIMING.collapseFade}ms`,
-          }}
-        >
-          {/* Contattaci */}
-          <Link
-            href={`/contatti?servizio=${service.slug}`}
-            tabIndex={isExpanded ? 0 : -1}
-            className="
-              px-3.5 py-1.5 rounded-full shrink-0
-              bg-accent text-accent-foreground
-              text-[13px] font-semibold whitespace-nowrap
-              hover:bg-accent-dark
-              focus-visible:outline-none focus-visible:ring-2
-              focus-visible:ring-accent/50 focus-visible:ring-offset-1
-            "
-            style={{
-              opacity: isExpanded ? 1 : 0,
-              transform: isExpanded ? 'scale(1)' : 'scale(0.92)',
-              transition: isExpanded
-                ? `opacity ${TIMING.fade}ms ease ${TIMING.expand}ms, transform ${TIMING.fade}ms ease ${TIMING.expand}ms`
-                : `opacity ${TIMING.collapseFade}ms ease, transform ${TIMING.collapseFade}ms ease`,
-              pointerEvents: isExpanded ? 'auto' : 'none',
-            }}
-          >
-            Contattaci
-          </Link>
-
-          {/* Approfondisci */}
-          <Link
-            href={`/servizi/${service.slug}`}
-            tabIndex={isExpanded ? 0 : -1}
-            className="
-              ml-1.5 px-3.5 py-1.5 rounded-full shrink-0
-              bg-primary text-primary-foreground
-              text-[13px] font-semibold whitespace-nowrap
-              hover:bg-primary-dark
-              focus-visible:outline-none focus-visible:ring-2
-              focus-visible:ring-primary/50 focus-visible:ring-offset-1
-            "
-            style={{
-              opacity: isExpanded ? 1 : 0,
-              transform: isExpanded ? 'scale(1)' : 'scale(0.92)',
-              transition: isExpanded
-                ? `opacity ${TIMING.fade}ms ease ${TIMING.expand + TIMING.stagger}ms, transform ${TIMING.fade}ms ease ${TIMING.expand + TIMING.stagger}ms`
-                : `opacity ${TIMING.collapseFade}ms ease, transform ${TIMING.collapseFade}ms ease`,
-              pointerEvents: isExpanded ? 'auto' : 'none',
-            }}
-          >
-            Approfondisci
-          </Link>
-
-          {/* + Button */}
-          <button
-            onClick={() => setIsExpanded(!isExpanded)}
-            aria-expanded={isExpanded}
-            aria-label={
-              isExpanded ? 'Chiudi opzioni' : `Opzioni per ${service.title}`
-            }
-            className="
-              ml-auto w-9 h-9 rounded-full shrink-0
-              bg-foreground text-background
-              flex items-center justify-center
-              cursor-pointer
-              hover:bg-primary
-              transition-colors duration-200
-              focus-visible:outline-none focus-visible:ring-2
-              focus-visible:ring-ring focus-visible:ring-offset-2
-            "
-          >
-            <Plus className="w-[18px] h-[18px]" />
-          </button>
-        </div>
-      </div>
+<div
+  className={`mt-4 flex justify-end`}
+>
+  <div
+    className="h-11 rounded-full bg-black/[0.06] transition-all duration-350"
+    style={{
+      width: isExpanded ? '100%' : 44,
+    }}
+  >
+    <button
+      onClick={() => setIsExpanded(!isExpanded)}
+      className="w-11 h-11 rounded-full bg-foreground text-background flex items-center justify-center cursor-pointer float-right ml-auto"
+    >
+      <Plus className={`w-6 h-6 transition-transform duration-300 ${isExpanded ? 'rotate-45' : 'rotate-0'}`}
+      style={{
+        transform: isExpanded ? 'rotate(45deg)' : 'rotate(0deg)'
+      }}/>
+    </button>
+  </div>
+</div>
     </article>
   );
 }
