@@ -13,6 +13,6 @@ export const iconMap: Record<string, LucideIcon> = {
   Gavel,
   Users,
   Briefcase,
-  Building2,
   ShieldCheck,
+  Building2,
 };

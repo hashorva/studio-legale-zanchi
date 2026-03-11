@@ -58,7 +58,7 @@ export function ServiceCard({ service }: ServiceCardProps) {
         <div className="flex flex-wrap gap-1.5 mb-3.5">
           {pills.map((item) => (
             <span
-              key={item}
+              key={item.slug}
               className="
               inline-block px-3 py-1 rounded-full text-xs font-medium
               text-primary/90 bg-primary/[0.06]
@@ -66,7 +66,7 @@ export function ServiceCard({ service }: ServiceCardProps) {
               transition-colors duration-200 cursor-pointer
             "
             >
-              {item}
+              {item.title}
             </span>
           ))}
         </div>

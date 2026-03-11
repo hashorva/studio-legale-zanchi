@@ -34,7 +34,7 @@ export default async function ServicePage({ params }: Props) {
       <h2 className="text-xl font-bold mb-4">Aree di competenza</h2>
       <ul className="list-disc pl-6">
         {service.expertise.map((item) => (
-          <li key={item} className="text-lg mb-2">{item}</li>
+          <li key={item.slug} className="text-lg mb-2">{item.title}</li>
         ))}
       </ul>
     </div>
