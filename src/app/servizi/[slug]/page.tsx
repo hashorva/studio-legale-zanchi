@@ -28,7 +28,7 @@ export default async function ServicePage({ params }: Props) {
   if (!service) notFound();
 
   return (
-    <div className="container mx-auto px-4 py-12">
+    <div className="mx-auto max-w-7xl px-4 py-12 pt-30">
       <h1 className="text-3xl font-bold mb-6">{service.title}</h1>
       <p className="text-lg mb-8 whitespace-pre-line">{service.longDescription}</p>
       <h2 className="text-xl font-bold mb-4">Aree di competenza</h2>

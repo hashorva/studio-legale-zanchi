@@ -129,7 +129,7 @@ export function ScrollRow({ children, labelledBy }: ScrollRowProps) {
 
       {/* ── Navigation Arrows ── */}
       <nav
-        className="max-w-7xl mx-auto px-5 flex justify-end gap-2 mt-5"
+        className="max-w-7xl mx-auto px-5 flex justify-end gap-4 mt-5"
         aria-label="Navigazione galleria servizi"
       >
         <button
@@ -137,32 +137,32 @@ export function ScrollRow({ children, labelledBy }: ScrollRowProps) {
           disabled={!canScrollLeft}
           aria-label="Elemento precedente"
           className="
-            w-9 h-9 rounded-full border border-border
+            w-10 h-10 rounded-full cursor-pointer
             flex items-center justify-center
-            text-foreground
+            text-primary/60 bg-primary/10
             disabled:opacity-30 disabled:cursor-default
-            hover:enabled:bg-black/[0.04]
+            hover:enabled:bg-primary/20 hover:enabled:text-primary/90
             transition-all duration-200
             focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring
           "
         >
-          <ChevronLeft className="w-[18px] h-[18px]" />
+          <ChevronLeft className="pr-0.5" strokeWidth={3.5} size={26} />
         </button>
         <button
           onClick={() => scroll('right')}
           disabled={!canScrollRight}
           aria-label="Elemento successivo"
           className="
-            w-9 h-9 rounded-full border border-border
+            w-10 h-10 rounded-full cursor-pointer
             flex items-center justify-center
-            text-foreground
+            text-primary/60 bg-primary/10
             disabled:opacity-30 disabled:cursor-default
-            hover:enabled:bg-black/[0.04]
+            hover:enabled:bg-primary/20 hover:enabled:text-primary/90
             transition-all duration-200
             focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring
           "
         >
-          <ChevronRight className="w-[18px] h-[18px]" />
+          <ChevronRight className="pl-0.5" strokeWidth={3.5} size={26} />
         </button>
       </nav>
     </>
