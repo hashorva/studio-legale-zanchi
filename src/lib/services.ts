@@ -1,3 +1,4 @@
+import type { IconName } from "@/lib/icon-map";
 export type FAQ = {
   question: string;
   answer: string;
@@ -8,14 +9,14 @@ export type Expertise = {
   slug: string;
   description: string;
   faq?: FAQ[];
-  icon?: string;
+  icon?: IconName;
 };
 
 export type Service = {
   id: string;
   slug: string;
   title: string;
-  icon: string;
+  icon: IconName;
   shortDescription: string;
   longDescription: string;
   expertise: Expertise[];

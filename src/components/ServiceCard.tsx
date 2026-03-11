@@ -25,7 +25,7 @@ type ServiceCardProps = {
 export function ServiceCard({ service }: ServiceCardProps) {
   const [isExpanded, setIsExpanded] = useState(false);
 
-  const Icon = iconMap[service.icon];
+  const Icon = iconMap[service.icon] ?? null;
   const pills = service.expertise.slice(0, 3);
 
   return (
