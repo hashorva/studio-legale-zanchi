@@ -42,7 +42,7 @@ export function ServiceCard({ service }: ServiceCardProps) {
         {Icon && (
           <div className="mb-5">
             <Icon
-              className="w-14 h-14 text-accent-dark hover:text-accent"
+              className="w-14 h-14 text-accent-dark transition-colors duration-200 hover:text-accent"
               strokeWidth={1.5}
               aria-hidden="true"
             />
