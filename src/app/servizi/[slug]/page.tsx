@@ -1,7 +1,8 @@
 import { servizi } from '@/lib/services';
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
-import Link from 'next/link';
+import { ServiceSectionNav } from '@/components/ServiceSectionNav';
+import { ServiceHeroExpertiseNav } from '@/components/ServiceHeroExpertiseNav';
 // shadcn/ui import
 import {
   Accordion,
@@ -10,8 +11,8 @@ import {
   AccordionTrigger,
 } from '@/components/ui/accordion';
 import { Separator } from '@/components/ui/separator';
-import { Button } from '@/components/ui/button';
 import { iconMap } from '@/lib/icon-map';
+import { Fragment } from 'react';
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -39,7 +40,10 @@ export default async function ServicePage({ params }: Props) {
   if (!service) notFound();
 
   const ServiceIcon = iconMap[service.icon];
-
+  const ExpertiseList = service.expertise.map((exp) => ({
+    slug: exp.slug,
+    title: exp.title,
+  }));
   return (
     <article>
       {/* Hero Section */}
@@ -68,37 +72,14 @@ export default async function ServicePage({ params }: Props) {
             >
               {service.title}
             </h1>
-            <div className="flex flex-wrap gap-2 mb-3">
-              {service.expertise.map((exp) => {
-                const ExpertiseIcon = exp.icon ? iconMap[exp.icon] : null;
-                return (
-                  <Button
-                    key={exp.slug}
-                    variant={'expertise'}
-                    size={'sm'}
-                    aria-label={exp.slug}
-                    className="rounded-full md:hover:-translate-y-0.5"
-                  >
-                    {ExpertiseIcon && (
-                      <ExpertiseIcon
-                        className="w-14 h-14 ml-1"
-                        strokeWidth={1.5}
-                      />
-                    )}
-                    <Link href={`#${exp.slug}`} className="pr-1">
-                      {exp.title}
-                    </Link>
-                  </Button>
-                );
-              })}
-            </div>
+            <ServiceHeroExpertiseNav items={service.expertise} />
             <p className="font-sans text-white/80 text-lg mb-4 whitespace-pre-line">
               {service.shortDescription}
             </p>
           </div>
         </div>
       </header>
-      <main className="relative bg-black/5 ">
+      <main className="relative bg-black/1 ">
         <div
           className="max-w-7xl mx-auto pt-15   grid grid-cols-1
 
@@ -108,25 +89,7 @@ export default async function ServicePage({ params }: Props) {
         "
         >
           {/* Sticky In-Page Navigation */}
-          <aside className="hidden md:block sticky top-24 self-start">
-            <nav aria-label="Table of Contents">
-              <p className="font-semibold text-right text-lg mb-4">
-                Aree di competenza
-              </p>
-              <ul className="space-y-3 border-r-2 border-muted pr-4 text-right">
-                {service.expertise.map((exp) => (
-                  <li key={exp.slug}>
-                    <a
-                      href={`#${exp.slug}`}
-                      className="text-muted-foreground hover:text-primary hover:pr-1 transition-all text-sm font-medium"
-                    >
-                      {exp.title}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </nav>
-          </aside>
+          <ServiceSectionNav items={ExpertiseList} />
 
           <div className="px-4">
             <section className="mb-20">
@@ -139,23 +102,19 @@ export default async function ServicePage({ params }: Props) {
                 </p>
               ))}
             </section>
-              <Separator
-                orientation="horizontal"
-                className="border-accent border-2"
-              />
+            <Separator
+              orientation="horizontal"
+              className="border-accent border-2"
+            />
             {service.expertise.map((item, index) => {
               const ExpertiseIcon = item.icon ? iconMap[item.icon] : null;
               return (
-                <>
-                  <section
-                    key={item.slug}
-                    id={item.slug}
-                    className="scroll-mt-24 mt-25 mb-20"
-                  >
+                <Fragment key={item.slug}>
+                  <section id={item.slug} className="scroll-mt-24 mt-25 mb-20">
                     <div className="mb-8 mx-2">
                       {ExpertiseIcon && (
                         <ExpertiseIcon
-                          className="w-14 h-14 text-accent-dark hover:text-accent hover:-translate-0.5 transition-transform  duration-200 mb-10"
+                          className="w-14 h-14 text-accent-dark hover:text-accent hover:-translate-y-0.5 transition-transform  duration-200 mb-10"
                           strokeWidth={1.5}
                         />
                       )}
@@ -171,7 +130,7 @@ export default async function ServicePage({ params }: Props) {
                     </div>
                     {/* shadcn/ui Accordion for FAQs */}
                     {item.faq && item.faq.length > 0 && (
-                      <div className="rounded-4xl bg-primary/2 py-4 px-6 mt-10 mb-8">
+                      <div className="rounded-4xl bg-primary/1 py-4 px-6 mt-10 mb-8">
                         <h3 className="font-serif text-3xl font-semibold leading-relaxed text-foreground mb-1">
                           Domande frequenti
                         </h3>
@@ -197,7 +156,7 @@ export default async function ServicePage({ params }: Props) {
                       className="border-accent border-2"
                     />
                   )}
-                </>
+                </Fragment>
               );
             })}
           </div>
