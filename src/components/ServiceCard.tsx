@@ -10,12 +10,12 @@ import type { Service } from '@/lib/services';
 const TIMING = {
   // Tailwind classes — used in className
   expandDuration: 'duration-300',
-  fadeDuration: 'duration-200',
-  buttonDuration: 'duration-400',
+  fadeDuration: 'duration-150',
+  buttonDuration: 'duration-500',
 
   // Milliseconds — used in style for conditional delays
   expandMs: 300,
-  stagger: 50,
+  stagger: 35,
 } as const;
 
 const toolbarEasing = 'cubic-bezier(0.22, 1, 0.36, 1)';
@@ -106,7 +106,7 @@ export function ServiceCard({ service }: ServiceCardProps) {
                 transform: isExpanded
                   ? 'translate3d(0, 0, 0)'
                   : 'translate3d(6px, 0, 0)',
-                transitionDelay: isExpanded ? '110ms' : '0ms',
+                transitionDelay: isExpanded ? '90ms' : '0ms',
                 pointerEvents: isExpanded ? 'auto' : 'none',
                 transitionTimingFunction: toolbarEasing,
               }}
@@ -123,7 +123,7 @@ export function ServiceCard({ service }: ServiceCardProps) {
                   ? 'translate3d(0, 0, 0)'
                   : 'translate3d(10px, 0, 0)',
                 transitionDelay: isExpanded
-                  ? `${110 + TIMING.stagger}ms`
+                  ? `${90 + TIMING.stagger}ms`
                   : '0ms',
                 pointerEvents: isExpanded ? 'auto' : 'none',
                 transitionTimingFunction: toolbarEasing,
