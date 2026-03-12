@@ -38,23 +38,26 @@ export default async function ServicePage({ params }: Props) {
   const ServiceIcon = iconMap[service.icon];
 
   return (
-    // Hero Section
-    <>
-      <section className="relative bg-primary">
+    <article>
+      {/* Hero Section */}
+      <header className="relative bg-primary">
         <div
-          className="max-w-7xl mx-auto pt-15 pb-12 grid grid-cols-1
+          className="max-w-7xl mx-auto pt-15 pb-12 grid grid-cols-1 gap-4
 
-        md:pt-30 md:grid-cols-[250px_1fr] gap-12
+        md:pt-30 md:grid-cols-[250px_1fr] md:gap-12
 
         lg:pt-30"
         >
-          <div className="md:border-r-2 border-accent pt-2">
-            <ServiceIcon size={164} strokeWidth={1.5} className="text-white" />
+          <div className="border-b-2 mx-4 md:mx-0 md:border-r-2 md:border-b-0 border-accent pt-8 pl-3 md:pt-2">
+            <ServiceIcon
+              strokeWidth={1.5}
+              className="w-30 h-32 mb-2 md:w-42 md:h-42 text-white"
+            />
           </div>
-          <header className="pl-4 pr-6">
+          <div className="pl-4 pr-6">
             <h1
               className="
-              font-serif font-medium text-4xl text-white/90 leading-relaxed
+              font-serif font-medium text-5xl text-white/90 mb-6
 
               md:font-medium md:text-5xl md:leading-relaxed md:hover:text-white/100 md:transition-colors md:duration-200
 
@@ -67,17 +70,15 @@ export default async function ServicePage({ params }: Props) {
               {service.shortDescription}
             </p>
 
-            <div className="prose  ">
-              {service.longDescription.split('\n\n').map((paragraph, i) => (
-                <p key={i} className="mb-2 font-sans text-base  text-white/50">
-                  {paragraph}
-                </p>
-              ))}
-            </div>
-          </header>
+            {service.longDescription.split('\n\n').map((paragraph, i) => (
+              <p key={i} className="mb-2 font-sans text-base  text-white/50">
+                {paragraph}
+              </p>
+            ))}
+          </div>
         </div>
-      </section>
-      <section className="relative bg-black/5 ">
+      </header>
+      <main className="relative bg-black/5 ">
         <div
           className="max-w-7xl mx-auto pt-15   grid grid-cols-1
 
@@ -89,9 +90,9 @@ export default async function ServicePage({ params }: Props) {
           {/* Sticky In-Page Navigation */}
           <aside className="hidden md:block sticky top-24 self-start">
             <nav aria-label="Table of Contents">
-              <h2 className="font-semibold text-right text-lg mb-4">
+              <p className="font-semibold text-right text-lg mb-4">
                 Aree di competenza
-              </h2>
+              </p>
               <ul className="space-y-3 border-r-2 border-muted pr-4 text-right">
                 {service.expertise.map((exp) => (
                   <li key={exp.slug}>
@@ -117,9 +118,10 @@ export default async function ServicePage({ params }: Props) {
                   className="mb-10 scroll-mt-24"
                 >
                   {ExpertiseIcon && (
-
-                      <ExpertiseIcon className="w-14 h-14 text-accent-dark hover:text-accent hover:-translate-0.5 transition-transform transition-colors duration-200 mb-4" strokeWidth={1.5} />
-
+                    <ExpertiseIcon
+                      className="w-14 h-14 text-accent-dark hover:text-accent hover:-translate-0.5 transition-transform  duration-200 mb-4"
+                      strokeWidth={1.5}
+                    />
                   )}
                   <h2 className="font-serif text-5xl font-medium text mb-4">
                     {item.title}
@@ -158,7 +160,7 @@ export default async function ServicePage({ params }: Props) {
             })}
           </div>
         </div>
-      </section>
-    </>
+      </main>
+    </article>
   );
 }
