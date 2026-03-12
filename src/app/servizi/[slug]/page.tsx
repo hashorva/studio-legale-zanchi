@@ -4,6 +4,7 @@ import type { Metadata } from 'next';
 import { ServiceSectionNav } from '@/components/ServiceSectionNav';
 import { ServiceHeroExpertiseNav } from '@/components/ServiceHeroExpertiseNav';
 import { ServiceMobileSectionNav } from '@/components/ServiceMobileSectionNav';
+import { ServiziSection } from '@/components/sections/ServiziSection';
 // shadcn/ui import
 import {
   Accordion,
@@ -163,6 +164,7 @@ export default async function ServicePage({ params }: Props) {
             })}
           </div>
         </div>
+        <ServiziSection excludeSlug={slug} />
       </main>
     </article>
   );

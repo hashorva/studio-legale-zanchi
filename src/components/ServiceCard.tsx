@@ -57,17 +57,18 @@ export function ServiceCard({ service }: ServiceCardProps) {
         {/* ── Pills ── */}
         <div className="flex flex-wrap gap-1.5 mb-3.5">
           {pills.map((item) => (
-            <span
+            <Link
               key={item.slug}
+              href={`/servizi/${service.slug}#${item.slug}`}
               className="
-              inline-block px-3 py-1 rounded-full text-xs font-medium
+              inline-flex items-center px-3 py-1 rounded-full text-xs font-medium
               text-primary/90 bg-primary/[0.06]
               hover:bg-accent hover:text-primary-foreground
               transition-colors duration-200 cursor-pointer
             "
             >
               {item.title}
-            </span>
+            </Link>
           ))}
         </div>
 
@@ -80,7 +81,7 @@ export function ServiceCard({ service }: ServiceCardProps) {
       {/* ── Expanding CTA Toolbar ── */}
       <div className={`mt-4 flex justify-end`}>
         <div
-          className={`rounded-full bg-black/[0.06] transition-all ${TIMING.expandDuration} ease-in-out flex items-center relative`}
+          className={`rounded-full bg-primary/[0.06] transition-all ${TIMING.expandDuration} ease-in-out flex items-center relative`}
           style={{
             width: isExpanded ? '100%' : 44,
           }}

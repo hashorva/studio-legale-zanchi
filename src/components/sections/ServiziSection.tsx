@@ -19,7 +19,16 @@ import { servizi } from '@/lib/services';
 import { ServiceCard } from '@/components/ServiceCard';
 import { ScrollRow } from '@/components/ScrollRow';
 
-export function ServiziSection() {
+type ServiziSectionProps = {
+  excludeSlug?: string;
+};
+
+export function ServiziSection({ excludeSlug }: ServiziSectionProps) {
+  const visibleServices = excludeSlug
+    ? servizi.filter((service) => service.slug !== excludeSlug)
+    : servizi;
+  const isFiltered = Boolean(excludeSlug);
+
   return (
     <section className="py-16 sm:py-20">
       {/* ── Constrained Header ──
@@ -32,11 +41,12 @@ export function ServiziSection() {
           id="servizi-heading"
           className={`font-serif text-5xl font-semibold tracking-tighter leading-none text-foreground mb-2`}
         >
-          I Nostri Servizi
+          {isFiltered ? 'Altri Servizi' : 'I Nostri Servizi'}
         </h2>
         <p className="text-base sm:text-[17px] leading-relaxed text-muted-foreground max-w-md">
-          Assistenza legale specializzata con un approccio personalizzato per
-          ogni cliente.
+          {isFiltered
+            ? 'Esplora gli altri ambiti in cui offriamo assistenza legale specializzata.'
+            : 'Assistenza legale specializzata con un approccio personalizzato per ogni cliente.'}
         </p>
       </div>
 
@@ -46,7 +56,7 @@ export function ServiziSection() {
           labelledBy connects the card list to the heading above.
       */}
       <ScrollRow labelledBy="servizi-heading">
-        {servizi.map((service) => (
+        {visibleServices.map((service) => (
           <ServiceCard key={service.id} service={service} />
         ))}
       </ScrollRow>
