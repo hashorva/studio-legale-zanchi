@@ -1,10 +1,8 @@
 'use client';
 
-import Link from 'next/link';
-import { useEffect, useState, type MouseEvent } from 'react';
-
 import { iconMap, type IconName } from '@/lib/icon-map';
 import { cn } from '@/lib/utils';
+import { useSectionNavigation } from '@/components/useSectionNavigation';
 
 type ExpertiseNavItem = {
   slug: string;
@@ -16,43 +14,10 @@ type ServiceHeroExpertiseNavProps = {
   items: ExpertiseNavItem[];
 };
 
-function getActiveSlug() {
-  return window.location.hash.replace(/^#/, '');
-}
-
 export function ServiceHeroExpertiseNav({
   items,
 }: ServiceHeroExpertiseNavProps) {
-  const [activeSlug, setActiveSlug] = useState('');
-
-  useEffect(() => {
-    function syncActiveSlug() {
-      setActiveSlug(getActiveSlug());
-    }
-
-    syncActiveSlug();
-    window.addEventListener('hashchange', syncActiveSlug);
-
-    return () => window.removeEventListener('hashchange', syncActiveSlug);
-  }, []);
-
-  function handleAnchorClick(
-    event: MouseEvent<HTMLAnchorElement>,
-    slug: string
-  ) {
-    event.preventDefault();
-
-    const target = document.getElementById(slug);
-    if (!target) return;
-
-    setActiveSlug(slug);
-    target.scrollIntoView({
-      behavior: 'smooth',
-      block: 'start',
-    });
-
-    window.history.pushState(null, '', `#${slug}`);
-  }
+  const { activeSlug, handleAnchorClick } = useSectionNavigation();
 
   return (
     <nav aria-label="Argomenti di questa pagina" className="mb-3">
@@ -63,7 +28,7 @@ export function ServiceHeroExpertiseNav({
 
           return (
             <li key={item.slug}>
-              <Link
+              <a
                 href={`#${item.slug}`}
                 aria-current={isActive ? 'location' : undefined}
                 onClick={(event) => handleAnchorClick(event, item.slug)}
@@ -79,7 +44,7 @@ export function ServiceHeroExpertiseNav({
                   />
                 )}
                 <span>{item.title}</span>
-              </Link>
+              </a>
             </li>
           );
         })}

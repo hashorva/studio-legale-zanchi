@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 import { ServiceSectionNav } from '@/components/ServiceSectionNav';
 import { ServiceHeroExpertiseNav } from '@/components/ServiceHeroExpertiseNav';
+import { ServiceMobileSectionNav } from '@/components/ServiceMobileSectionNav';
 // shadcn/ui import
 import {
   Accordion,
@@ -90,6 +91,7 @@ export default async function ServicePage({ params }: Props) {
         >
           {/* Sticky In-Page Navigation */}
           <ServiceSectionNav items={ExpertiseList} />
+          <ServiceMobileSectionNav items={ExpertiseList} />
 
           <div className="px-4">
             <section className="mb-20">
