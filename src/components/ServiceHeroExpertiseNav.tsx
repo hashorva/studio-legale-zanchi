@@ -12,15 +12,17 @@ type ExpertiseNavItem = {
 
 type ServiceHeroExpertiseNavProps = {
   items: ExpertiseNavItem[];
+  ariaLabel?: string;
 };
 
 export function ServiceHeroExpertiseNav({
   items,
+  ariaLabel = 'Argomenti di questa pagina',
 }: ServiceHeroExpertiseNavProps) {
   const { activeSlug, handleAnchorClick } = useSectionNavigation();
 
   return (
-    <nav aria-label="Argomenti di questa pagina" className="mb-3">
+    <nav aria-label={ariaLabel} className="mb-3">
       <ul className="flex flex-wrap gap-2">
         {items.map((item) => {
           const ExpertiseIcon = item.icon ? iconMap[item.icon] : null;
@@ -33,7 +35,7 @@ export function ServiceHeroExpertiseNav({
                 aria-current={isActive ? 'location' : undefined}
                 onClick={(event) => handleAnchorClick(event, item.slug)}
                 className={cn(
-                  'inline-flex h-8 items-center gap-1.5 rounded-full bg-white/30 px-3 pr-5 text-sm font-medium text-white shadow-xs transition-all hover:bg-accent hover:text-accent-foreground md:hover:-translate-y-0.5',
+                  'inline-flex h-8 items-center gap-1.5 rounded-full bg-white/10 px-3 pr-5 text-sm font-medium text-white shadow-xs transition-all hover:bg-accent hover:text-accent-foreground md:hover:-translate-y-0.5',
                   isActive && 'bg-white/30 text-white shadow-sm'
                 )}
               >

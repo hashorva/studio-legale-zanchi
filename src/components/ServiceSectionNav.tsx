@@ -5,17 +5,21 @@ import { useSectionNavigation, type SectionNavItem } from '@/components/useSecti
 
 type ServiceSectionNavProps = {
   items: SectionNavItem[];
+  title?: string;
+  ariaLabel?: string;
 };
 
-export function ServiceSectionNav({ items }: ServiceSectionNavProps) {
+export function ServiceSectionNav({
+  items,
+  title = 'Aree di competenza',
+  ariaLabel = 'Table of Contents',
+}: ServiceSectionNavProps) {
   const { activeSlug, handleAnchorClick } = useSectionNavigation();
 
   return (
     <aside className="hidden md:block sticky top-24 self-start">
-      <nav aria-label="Table of Contents">
-        <p className="font-semibold text-right text-lg mb-4">
-          Aree di competenza
-        </p>
+      <nav aria-label={ariaLabel}>
+        <p className="font-semibold text-right text-lg mb-4">{title}</p>
         <ul className="space-y-3 border-r-2 border-muted pr-4 text-right">
           {items.map((item) => (
             <li key={item.slug}>

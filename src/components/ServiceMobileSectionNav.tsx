@@ -10,10 +10,14 @@ import {
 
 type ServiceMobileSectionNavProps = {
   items: SectionNavItem[];
+  title?: string;
+  ariaLabel?: string;
 };
 
 export function ServiceMobileSectionNav({
   items,
+  title = 'Aree di competenza',
+  ariaLabel = 'Aree di competenza',
 }: ServiceMobileSectionNavProps) {
   const { activeSlug, handleAnchorClick } = useSectionNavigation();
   const linkRefs = useRef<Record<string, HTMLAnchorElement | null>>({});
@@ -32,12 +36,10 @@ export function ServiceMobileSectionNav({
     <>
       <div className="h-22 md:hidden" aria-hidden="true" />
       <nav
-        aria-label="Aree di competenza"
+        aria-label={ariaLabel}
         className="fixed inset-x-0 bottom-0 z-40 border-t border-border/60 bg-background/95 pb-[max(env(safe-area-inset-bottom),0.75rem)] pt-3 backdrop-blur md:hidden"
       >
-        <p className="mb-4 text-center text-lg font-semibold">
-          Aree di competenza
-        </p>
+        <p className="mb-4 text-center text-lg font-semibold">{title}</p>
         <div className="scrollbar-none overflow-x-auto px-4">
           <ul className="flex w-max min-w-full gap-2">
             {items.map((item) => (
