@@ -62,7 +62,7 @@ export function ServiceCard({ service }: ServiceCardProps) {
               className="
               inline-block px-3 py-1 rounded-full text-xs font-medium
               text-primary/90 bg-primary/[0.06]
-              hover:bg-primary hover:text-primary-foreground
+              hover:bg-accent hover:text-primary-foreground
               transition-colors duration-200 cursor-pointer
             "
             >

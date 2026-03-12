@@ -101,7 +101,7 @@ export default function Header() {
 
       {/* Header — fixed to top, full width */}
       <motion.header
-        layout
+        // layout
         ref={headerRef}
         className="fixed top-0 z-50 w-full bg-background/90 backdrop-blur"
         initial={false}

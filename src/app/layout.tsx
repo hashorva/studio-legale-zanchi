@@ -89,7 +89,7 @@ export default function RootLayout({
     <html
       lang="it"
       suppressHydrationWarning
-      className={`${playfair.variable} ${inter.variable} motion-safe:scroll-smooth`}
+      className={`${playfair.variable} ${inter.variable}`}
     >
       <head>
         <JsonLd />

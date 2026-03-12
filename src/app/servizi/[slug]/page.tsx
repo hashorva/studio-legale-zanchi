@@ -1,13 +1,16 @@
 import { servizi } from '@/lib/services';
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
+import Link from 'next/link';
+// shadcn/ui import
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from '@/components/ui/accordion'; // shadcn/ui import
+} from '@/components/ui/accordion';
 import { Separator } from '@/components/ui/separator';
+import { Button } from '@/components/ui/button';
 import { iconMap } from '@/lib/icon-map';
 
 type Props = {
@@ -65,16 +68,33 @@ export default async function ServicePage({ params }: Props) {
             >
               {service.title}
             </h1>
-
+            <div className="flex flex-wrap gap-2 mb-3">
+              {service.expertise.map((exp) => {
+                const ExpertiseIcon = exp.icon ? iconMap[exp.icon] : null;
+                return (
+                  <Button
+                    key={exp.slug}
+                    variant={'expertise'}
+                    size={'sm'}
+                    aria-label={exp.slug}
+                    className="rounded-full md:hover:-translate-y-0.5"
+                  >
+                    {ExpertiseIcon && (
+                      <ExpertiseIcon
+                        className="w-14 h-14 ml-1"
+                        strokeWidth={1.5}
+                      />
+                    )}
+                    <Link href={`#${exp.slug}`} className="pr-1">
+                      {exp.title}
+                    </Link>
+                  </Button>
+                );
+              })}
+            </div>
             <p className="font-sans text-white/80 text-lg mb-4 whitespace-pre-line">
               {service.shortDescription}
             </p>
-
-            {service.longDescription.split('\n\n').map((paragraph, i) => (
-              <p key={i} className="mb-2 font-sans text-base  text-white/50">
-                {paragraph}
-              </p>
-            ))}
           </div>
         </div>
       </header>
@@ -109,53 +129,75 @@ export default async function ServicePage({ params }: Props) {
           </aside>
 
           <div className="px-4">
+            <section className="mb-20">
+              <h2 className="font-serif text-5xl font-medium text mb-10">
+                Introduzione
+              </h2>
+              {service.longDescription.split('\n\n').map((paragraph, i) => (
+                <p key={i} className="mb-2 font-sans text-base">
+                  {paragraph}
+                </p>
+              ))}
+            </section>
+              <Separator
+                orientation="horizontal"
+                className="border-accent border-2"
+              />
             {service.expertise.map((item, index) => {
               const ExpertiseIcon = item.icon ? iconMap[item.icon] : null;
               return (
-                <section
-                  key={item.slug}
-                  id={item.slug}
-                  className="mb-10 scroll-mt-24"
-                >
-                  {ExpertiseIcon && (
-                    <ExpertiseIcon
-                      className="w-14 h-14 text-accent-dark hover:text-accent hover:-translate-0.5 transition-transform  duration-200 mb-4"
-                      strokeWidth={1.5}
-                    />
-                  )}
-                  <h2 className="font-serif text-5xl font-medium text mb-4">
-                    {item.title}
-                  </h2>
-                  <p className="mb-8 font-sans text-base">{item.description}</p>
-                  {/* shadcn/ui Accordion for FAQs */}
-                  {item.faq && item.faq.length > 0 && (
-                    <div className="rounded-4xl bg-white/30 py-4 px-6 mt-5 mb-8">
-                      <h3 className="font-serif text-3xl font-semibold leading-relaxed text-foreground mb-1">
-                        Domande frequenti
-                      </h3>
-                      <Accordion type="multiple">
-                        {item.faq.map((faqItem, index) => (
-                          <AccordionItem key={index} value={`item-${index}`}>
-                            <AccordionTrigger>
-                              {faqItem.question}
-                            </AccordionTrigger>
-                            <AccordionContent>
-                              {faqItem.answer}
-                            </AccordionContent>
-                          </AccordionItem>
-                        ))}
-                      </Accordion>
-                    </div>
-                  )}
+                <>
+                  <section
+                    key={item.slug}
+                    id={item.slug}
+                    className="scroll-mt-24 mt-25 mb-20"
+                  >
+                    <div className="mb-8 mx-2">
+                      {ExpertiseIcon && (
+                        <ExpertiseIcon
+                          className="w-14 h-14 text-accent-dark hover:text-accent hover:-translate-0.5 transition-transform  duration-200 mb-10"
+                          strokeWidth={1.5}
+                        />
+                      )}
+                      <h2 className="font-serif text-5xl font-medium text mb-10">
+                        {item.title}
+                      </h2>
 
+                      {item.description.split('\n\n').map((paragraph, i) => (
+                        <p key={i} className="mb-4 font-sans text-base">
+                          {paragraph}
+                        </p>
+                      ))}
+                    </div>
+                    {/* shadcn/ui Accordion for FAQs */}
+                    {item.faq && item.faq.length > 0 && (
+                      <div className="rounded-4xl bg-primary/2 py-4 px-6 mt-10 mb-8">
+                        <h3 className="font-serif text-3xl font-semibold leading-relaxed text-foreground mb-1">
+                          Domande frequenti
+                        </h3>
+                        <Accordion type="multiple">
+                          {item.faq.map((faqItem, index) => (
+                            <AccordionItem key={index} value={`item-${index}`}>
+                              <AccordionTrigger>
+                                {faqItem.question}
+                              </AccordionTrigger>
+                              <AccordionContent>
+                                {faqItem.answer}
+                              </AccordionContent>
+                            </AccordionItem>
+                          ))}
+                        </Accordion>
+                      </div>
+                    )}
+                  </section>
                   {/* Conditional Horizontal Line */}
                   {index < service.expertise.length - 1 && (
                     <Separator
                       orientation="horizontal"
-                      className="border-accent border-2 mt-15 mb-20"
+                      className="border-accent border-2"
                     />
                   )}
-                </section>
+                </>
               );
             })}
           </div>
