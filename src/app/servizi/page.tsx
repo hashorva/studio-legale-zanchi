@@ -5,7 +5,7 @@ import { ServiceHeroExpertiseNav } from '@/components/ServiceHeroExpertiseNav';
 import { ServiceIndexArticle } from '@/components/ServiceIndexArticle';
 import { ServiceMobileSectionNav } from '@/components/ServiceMobileSectionNav';
 import { ServiceSectionNav } from '@/components/ServiceSectionNav';
-import { servizi } from '@/lib/services';
+import { getServices } from '@/lib/content';
 
 export const metadata: Metadata = {
   title: 'Servizi Legali a Milano | Studio Legale Zanchi',
@@ -14,6 +14,7 @@ export const metadata: Metadata = {
 };
 
 export default function ServiziPage() {
+  const servizi = getServices();
   const serviceNavItems = servizi.map((service) => ({
     slug: service.slug,
     title: service.title,

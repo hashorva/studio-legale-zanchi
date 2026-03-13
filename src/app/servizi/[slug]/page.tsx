@@ -1,4 +1,3 @@
-import { servizi } from '@/lib/services';
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 import { ServiceSectionNav } from '@/components/ServiceSectionNav';
@@ -14,6 +13,7 @@ import {
 } from '@/components/ui/accordion';
 import { Separator } from '@/components/ui/separator';
 import { iconMap } from '@/lib/icon-map';
+import { getServiceBySlug, getServiceSlugs } from '@/lib/content';
 import { Fragment } from 'react';
 
 type Props = {
@@ -22,7 +22,7 @@ type Props = {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const service = servizi.find((s) => s.slug === slug);
+  const service = getServiceBySlug(slug);
   if (!service) return {};
   return {
     title: service.metaTitle,
@@ -31,14 +31,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export function generateStaticParams() {
-  return servizi.map((service) => ({
-    slug: service.slug,
-  }));
+  return getServiceSlugs().map((slug) => ({ slug }));
 }
 
 export default async function ServicePage({ params }: Props) {
   const { slug } = await params;
-  const service = servizi.find((s) => s.slug === slug);
+  const service = getServiceBySlug(slug);
   if (!service) notFound();
 
   const ServiceIcon = iconMap[service.icon];

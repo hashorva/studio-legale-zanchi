@@ -15,7 +15,7 @@
 // We mirror this: header in max-w-7xl, ScrollRow breaks out.
 // The h2 id connects to ScrollRow's aria-labelledby.
 
-import { servizi } from '@/lib/services';
+import { getServices } from '@/lib/content';
 import { ServiceCard } from '@/components/ServiceCard';
 import { ScrollRow } from '@/components/ScrollRow';
 
@@ -24,6 +24,7 @@ type ServiziSectionProps = {
 };
 
 export function ServiziSection({ excludeSlug }: ServiziSectionProps) {
+  const servizi = getServices();
   const visibleServices = excludeSlug
     ? servizi.filter((service) => service.slug !== excludeSlug)
     : servizi;

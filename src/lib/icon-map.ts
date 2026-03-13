@@ -32,6 +32,7 @@ import {
   Stamp,
   Lock,
   FolderSearch,
+  Send,
 } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 
@@ -69,6 +70,7 @@ export const iconMap = {
   Stamp,
   Lock,
   FolderSearch,
+  Send,
 } satisfies Record<string, LucideIcon>;
 
 export type IconName = keyof typeof iconMap;
