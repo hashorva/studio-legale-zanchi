@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { Send } from 'lucide-react';
 
+import { ContactDialog } from '@/components/ContactDialog';
 import { iconMap } from '@/lib/icon-map';
 import type { Service } from '@/lib/services';
 
@@ -73,13 +74,15 @@ export function ServiceIndexArticle({ service }: ServiceIndexArticleProps) {
         </div>
 
         <div className="flex flex-wrap gap-3">
-          <Link
-            href={`/contatti?servizio=${service.slug}`}
-            className="inline-flex items-center gap-2 rounded-full bg-accent px-4 py-2 text-sm font-semibold text-accent-foreground transition-colors hover:bg-accent-dark"
-          >
-            <Send className="h-4 w-4" strokeWidth={2} aria-hidden="true" />
-            Contattaci
-          </Link>
+          <ContactDialog defaultServiceSlug={service.slug}>
+            <button
+              type="button"
+              className="inline-flex items-center gap-2 rounded-full bg-accent px-4 py-2 text-sm font-semibold text-accent-foreground transition-colors hover:bg-accent-dark"
+            >
+              <Send className="h-4 w-4" strokeWidth={2} aria-hidden="true" />
+              Contattaci
+            </button>
+          </ContactDialog>
           <Link
             href={`/servizi/${service.slug}`}
             className="inline-flex items-center gap-2 rounded-full bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary-dark"

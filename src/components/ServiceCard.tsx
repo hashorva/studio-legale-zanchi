@@ -4,6 +4,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { Plus } from 'lucide-react';
+import { ContactDialog } from '@/components/ContactDialog';
 import { iconMap } from '@/lib/icon-map';
 import type { Service } from '@/lib/services';
 
@@ -97,40 +98,42 @@ export function ServiceCard({ service }: ServiceCardProps) {
           {/* Links — positioned independently from the reveal rail */}
           <div className="absolute inset-0 overflow-hidden rounded-full">
             <div className="flex h-full items-center gap-1.5 pl-2 pr-12">
-            <Link
-              href={`/contatti?servizio=${service.slug}`}
-              tabIndex={isExpanded ? 0 : -1}
-              className={`antialiased px-3.5 py-1.5 rounded-full shrink-0 bg-accent text-accent-foreground text-sm font-semibold whitespace-nowrap transition-[opacity,transform] ${TIMING.fadeDuration}`}
-              style={{
-                opacity: isExpanded ? 1 : 0,
-                transform: isExpanded
-                  ? 'translate3d(0, 0, 0)'
-                  : 'translate3d(6px, 0, 0)',
-                transitionDelay: isExpanded ? '90ms' : '0ms',
-                pointerEvents: isExpanded ? 'auto' : 'none',
-                transitionTimingFunction: toolbarEasing,
-              }}
-            >
-              Contattaci
-            </Link>
-            <Link
-              href={`/servizi/${service.slug}`}
-              tabIndex={isExpanded ? 0 : -1}
-              className={`antialiased px-3.5 py-1.5 rounded-full shrink-0 bg-primary text-primary-foreground text-sm font-semibold whitespace-nowrap transition-[opacity,transform] ${TIMING.fadeDuration}`}
-              style={{
-                opacity: isExpanded ? 1 : 0,
-                transform: isExpanded
-                  ? 'translate3d(0, 0, 0)'
-                  : 'translate3d(10px, 0, 0)',
-                transitionDelay: isExpanded
-                  ? `${90 + TIMING.stagger}ms`
-                  : '0ms',
-                pointerEvents: isExpanded ? 'auto' : 'none',
-                transitionTimingFunction: toolbarEasing,
-              }}
-            >
-              Approfondisci
-            </Link>
+              <ContactDialog defaultServiceSlug={service.slug}>
+                <button
+                  type="button"
+                  tabIndex={isExpanded ? 0 : -1}
+                  className={`antialiased px-3.5 py-1.5 rounded-full shrink-0 bg-accent text-accent-foreground text-sm font-semibold whitespace-nowrap transition-[opacity,transform] ${TIMING.fadeDuration}`}
+                  style={{
+                    opacity: isExpanded ? 1 : 0,
+                    transform: isExpanded
+                      ? 'translate3d(0, 0, 0)'
+                      : 'translate3d(6px, 0, 0)',
+                    transitionDelay: isExpanded ? '90ms' : '0ms',
+                    pointerEvents: isExpanded ? 'auto' : 'none',
+                    transitionTimingFunction: toolbarEasing,
+                  }}
+                >
+                  Contattaci
+                </button>
+              </ContactDialog>
+              <Link
+                href={`/servizi/${service.slug}`}
+                tabIndex={isExpanded ? 0 : -1}
+                className={`antialiased px-3.5 py-1.5 rounded-full shrink-0 bg-primary text-primary-foreground text-sm font-semibold whitespace-nowrap transition-[opacity,transform] ${TIMING.fadeDuration}`}
+                style={{
+                  opacity: isExpanded ? 1 : 0,
+                  transform: isExpanded
+                    ? 'translate3d(0, 0, 0)'
+                    : 'translate3d(10px, 0, 0)',
+                  transitionDelay: isExpanded
+                    ? `${90 + TIMING.stagger}ms`
+                    : '0ms',
+                  pointerEvents: isExpanded ? 'auto' : 'none',
+                  transitionTimingFunction: toolbarEasing,
+                }}
+              >
+                Approfondisci
+              </Link>
             </div>
           </div>
 

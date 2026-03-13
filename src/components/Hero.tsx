@@ -2,6 +2,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Send, Handshake } from 'lucide-react';
+import { ContactDialog } from '@/components/ContactDialog';
 
 export default function Hero() {
   return (
@@ -92,11 +93,11 @@ export default function Hero() {
               clienti
             </p>
             <div className="flex gap-4 flex-wrap">
-              <Button
-                asChild
-                size="lg"
-                className={`
-                    bg-accent-dark
+              <ContactDialog>
+                <button
+                  type="button"
+                  className={`
+                    inline-flex items-center justify-center rounded-md bg-accent-dark px-6 h-10 text-sm font-medium text-white
 
                     active:scale-95
                     active:brightness-90
@@ -111,13 +112,13 @@ export default function Hero() {
                     focus-visible:ring-2
                     focus-visible:ring-accent
                     focus-visible:ring-offset-2
-                `}
-              >
-                <Link href="/contatti">
-                  <Send className="w-5 h-5 mr-1" />
+                    outline-none
+                  `}
+                >
+                  <Send className="mr-1 h-5 w-5" />
                   Contattaci
-                </Link>
-              </Button>
+                </button>
+              </ContactDialog>
 
               <Button
                 asChild

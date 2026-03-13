@@ -1,4 +1,5 @@
 import { aboutContent } from '@/lib/about';
+import { contactContent } from '@/lib/contact';
 import { servizi } from '@/lib/services';
 
 export function getServices() {
@@ -23,4 +24,8 @@ export function getHomeAboutTeaser() {
 
 export function getAboutPageContent() {
   return aboutContent.page;
+}
+
+export function getContactContent() {
+  return contactContent;
 }
