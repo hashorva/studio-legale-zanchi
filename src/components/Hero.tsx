@@ -94,10 +94,12 @@ export default function Hero() {
             </p>
             <div className="flex gap-4 flex-wrap">
               <ContactDialog>
-                <button
+                <Button
                   type="button"
+                  size='lg'
                   className={`
-                    inline-flex items-center justify-center rounded-md bg-accent-dark px-6 h-10 text-sm font-medium text-white
+                    bg-accent-dark cursor-pointer
+                    disabled:cursor-not-allowed
 
                     active:scale-95
                     active:brightness-90
@@ -106,18 +108,13 @@ export default function Hero() {
                     md:hover:-translate-y-0.5
                     md:hover:shadow-[0_0_20px_rgba(191,21,52,0.5)]
 
-                    transition-all
-                    duration-200
-
-                    focus-visible:ring-2
                     focus-visible:ring-accent
                     focus-visible:ring-offset-2
-                    outline-none
                   `}
                 >
-                  <Send className="mr-1 h-5 w-5" />
+                  <Send />
                   Contattaci
-                </button>
+                </Button>
               </ContactDialog>
 
               <Button
@@ -125,7 +122,7 @@ export default function Hero() {
                 size="lg"
                 className={`
                     bg-primary-dark
-                    text-white
+
                     shadow-[0_0_15px_rgba(31,59,115,0.4)]
 
                     active:scale-95
@@ -136,16 +133,12 @@ export default function Hero() {
                     md:hover:-translate-y-0.5
                     md:hover:shadow-[0_0_30px_rgba(31,59,115,0.7)]
 
-                    transition-all
-                    duration-200
-
-                    focus-visible:ring-2
                     focus-visible:ring-primary
                     focus-visible:ring-offset-2
                 `}
               >
                 <Link href="/servizi">
-                  <Handshake className="w-5 h-5 mr-1" />I Nostri Servizi
+                  <Handshake />I Nostri Servizi
                 </Link>
               </Button>
             </div>
