@@ -2,8 +2,13 @@
 
 import { useState, useRef, useEffect } from 'react';
 import type { CSSProperties } from 'react';
-import { ArrowUp, MessageCircle, Scale } from 'lucide-react';
+import { ArrowUp, CalendarDays, MessageCircle, Scale } from 'lucide-react';
 import { motion } from 'framer-motion';
+import type {
+  AppointmentSlot,
+  ChatMessage,
+  ChatResponseBody,
+} from '@/lib/chat';
 import { Textarea } from '@/components/ui/textarea';
 import {
   Dialog,
@@ -14,16 +19,14 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog';
 
-type Message = {
-  role: 'user' | 'assistant';
-  content: string;
-};
-
 export default function ChatWidget() {
   const [isOpen, setIsOpen] = useState(false);
-  const [messages, setMessages] = useState<Message[]>([]);
+  const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [activeSuggestedSlots, setActiveSuggestedSlots] = useState<
+    AppointmentSlot[]
+  >([]);
   const [viewportHeight, setViewportHeight] = useState<number | null>(null);
   const [viewportOffsetTop, setViewportOffsetTop] = useState(0);
   const [isMobileViewport, setIsMobileViewport] = useState(false);
@@ -91,15 +94,16 @@ export default function ChatWidget() {
           role: 'assistant',
           content:
             "Benvenuto! Sono l'assistente virtuale dello Studio Legale Zanchi. Come posso aiutarla oggi?",
+          suggestedSlots: [],
         },
       ]);
     }
   }, [isOpen, messages.length]);
 
-  const sendMessage = async () => {
-    if (!input.trim() || isLoading) return;
+  const sendMessage = async (content = input) => {
+    if (!content.trim() || isLoading) return;
 
-    const userMessage: Message = { role: 'user', content: input };
+    const userMessage: ChatMessage = { role: 'user', content };
     const newMessages = [...messages, userMessage];
     setMessages(newMessages);
     setInput('');
@@ -113,16 +117,26 @@ export default function ChatWidget() {
       const response = await fetch('/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ messages: newMessages }),
+        body: JSON.stringify({
+          messages: newMessages,
+          activeSuggestedSlots,
+        }),
       });
 
-      const data = await response.json();
+      const data = (await response.json()) as ChatResponseBody;
 
       if (data.message) {
+        const assistantMessage: ChatMessage = {
+          role: 'assistant',
+          content: data.message,
+          suggestedSlots: data.suggestedSlots,
+        };
+
         setMessages([
           ...newMessages,
-          { role: 'assistant', content: data.message },
+          assistantMessage,
         ]);
+        setActiveSuggestedSlots(data.activeSuggestedSlots ?? []);
       } else {
         throw new Error('No response from API');
       }
@@ -134,6 +148,7 @@ export default function ChatWidget() {
           role: 'assistant',
           content:
             'Mi dispiace, si è verificato un errore. La prego di riprovare o di contattarci direttamente.',
+          suggestedSlots: [],
         },
       ]);
     } finally {
@@ -199,6 +214,12 @@ export default function ChatWidget() {
     }, 0);
   };
 
+  const handleSuggestedSlotSelect = (slot: AppointmentSlot) => {
+    if (isLoading) return;
+
+    sendMessage(`Scelgo ${slot.dateLabel} alle ${slot.timeLabel}.`);
+  };
+
   const dialogStyle: CSSProperties | undefined = isMobileViewport && viewportHeight
     ? {
         top: `${Math.max(viewportOffsetTop, 0) + 4}px`,
@@ -256,6 +277,26 @@ export default function ChatWidget() {
                     </div>
                     <div className="max-w-[min(100%,34rem)] pt-0.5 text-[15px] leading-7 text-foreground sm:pt-1 sm:text-[15px]">
                       <p className="whitespace-pre-wrap">{message.content}</p>
+                      {message.suggestedSlots && message.suggestedSlots.length > 0 ? (
+                        <div className="mt-3 flex flex-wrap gap-2">
+                          {message.suggestedSlots.map((slot) => (
+                            <button
+                              key={slot.id}
+                              type="button"
+                              onClick={() => handleSuggestedSlotSelect(slot)}
+                              onMouseDown={(e) => e.preventDefault()}
+                              onTouchStart={(e) => e.preventDefault()}
+                              className="inline-flex items-center gap-2 rounded-full border border-primary/15 bg-background px-3 py-2 text-[13px] font-medium leading-none text-primary transition-colors hover:bg-primary/5"
+                              aria-label={`Seleziona ${slot.fullLabel}`}
+                            >
+                              <CalendarDays className="h-3.5 w-3.5" />
+                              <span>{slot.dateLabel}</span>
+                              <span className="text-primary/60">·</span>
+                              <span>{slot.timeLabel}</span>
+                            </button>
+                          ))}
+                        </div>
+                      ) : null}
                     </div>
                   </>
                 ) : (
