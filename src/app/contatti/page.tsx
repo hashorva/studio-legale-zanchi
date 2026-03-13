@@ -61,10 +61,12 @@ export default async function ContattiPage({ searchParams }: Props) {
                     {contactContent.formDescription}
                   </p>
                 </div>
-                <ContactForm
-                  defaultServiceSlug={defaultServiceSlug}
-                  defaultExpertiseSlug={defaultExpertiseSlug}
-                />
+                <div className="rounded-[2rem] border border-border/70 bg-background p-6 shadow-xs md:p-8">
+                  <ContactForm
+                    defaultServiceSlug={defaultServiceSlug}
+                    defaultExpertiseSlug={defaultExpertiseSlug}
+                  />
+                </div>
               </section>
 
               <div className="space-y-6">

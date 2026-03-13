@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { LoaderCircle, Send, CheckCircle2 } from 'lucide-react';
+import { CircleAlert, LoaderCircle, Send, CheckCircle2 } from 'lucide-react';
 import { useForm, useWatch } from 'react-hook-form';
 
 import {
@@ -14,11 +14,22 @@ import {
 import { getContactContent, getServices } from '@/lib/content';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/ui/popover';
 import { Textarea } from '@/components/ui/textarea';
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -34,8 +45,27 @@ type ContactFormProps = {
   className?: string;
 };
 
-const selectClassName =
-  'border-input focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 aria-invalid:border-destructive dark:bg-input/30 flex h-11 w-full rounded-md border bg-transparent px-3 py-2 text-sm shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px] disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50';
+const UNSPECIFIED_SERVICE = '__unspecified_service__';
+const UNSPECIFIED_EXPERTISE = '__unspecified_expertise__';
+
+function InlineFieldHint({ text }: { text: string }) {
+  return (
+    <Popover>
+      <PopoverTrigger asChild>
+        <button
+          type="button"
+          aria-label={text}
+          className="inline-flex h-5 w-5 items-center justify-center rounded-full text-muted-foreground/80 transition-colors hover:text-primary focus-visible:text-primary focus-visible:outline-none"
+        >
+          <CircleAlert className="h-4 w-4" strokeWidth={1.8} />
+        </button>
+      </PopoverTrigger>
+      <PopoverContent align="start" className="w-64">
+        {text}
+      </PopoverContent>
+    </Popover>
+  );
+}
 
 export function ContactForm({
   defaultServiceSlug,
@@ -104,7 +134,7 @@ export function ContactForm({
   }
 
   return (
-    <div className={cn('rounded-[2rem] bg-background p-6 shadow-xs md:p-8', className)}>
+    <div className={cn('space-y-6', className)}>
       {isSuccess ? (
         <div className="flex min-h-72 flex-col items-start justify-center gap-4">
           <CheckCircle2
@@ -130,172 +160,220 @@ export function ContactForm({
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
-            className={cn('space-y-6', mode === 'dialog' && 'space-y-5')}
+            className={cn(
+              'space-y-6 mt-2',
+              mode === 'dialog' && 'space-y-5'
+            )}
           >
-            <div className="grid gap-5 md:grid-cols-2">
-              <FormField
-                control={form.control}
-                name="fullName"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Nome e cognome</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Nome e cognome" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name="email"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Email</FormLabel>
-                    <FormControl>
-                      <Input
-                        type="email"
-                        inputMode="email"
-                        placeholder="nome@email.it"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
-
-            <div className="grid gap-5 md:grid-cols-2">
-              <FormField
-                control={form.control}
-                name="phone"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Telefono</FormLabel>
-                    <FormControl>
-                      <Input
-                        type="tel"
-                        inputMode="tel"
-                        placeholder="Facoltativo"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name="serviceSlug"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Servizio</FormLabel>
-                    <FormControl>
-                      <select
-                        {...field}
-                        className={selectClassName}
-                        aria-label="Servizio"
-                      >
-                        <option value="">Non specificato</option>
-                        {services.map((service) => (
-                          <option key={service.slug} value={service.slug}>
-                            {service.title}
-                          </option>
-                        ))}
-                      </select>
-                    </FormControl>
-                    <FormDescription>
-                      {contactContent.serviceHelperText}
-                    </FormDescription>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
-
-            <FormField
-              control={form.control}
-              name="expertiseSlug"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Area specifica / Expertise</FormLabel>
-                  <FormControl>
-                    <select
-                      {...field}
-                      disabled={!selectedService}
-                      className={selectClassName}
-                      aria-label="Area specifica / Expertise"
-                    >
-                      <option value="">Selezioni se desidera</option>
-                      {expertiseOptions.map((expertise) => (
-                        <option key={expertise.slug} value={expertise.slug}>
-                          {expertise.title}
-                        </option>
-                      ))}
-                    </select>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="message"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Messaggio</FormLabel>
-                  <FormControl>
-                    <Textarea
-                      placeholder="Descriva brevemente la sua richiesta."
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="privacyAccepted"
-              render={({ field }) => (
-                <FormItem className="rounded-2xl border border-border/70 bg-primary/[0.03] p-4">
-                  <div className="flex items-start gap-3">
-                    <FormControl>
-                      <input
-                        type="checkbox"
-                        checked={field.value}
-                        onChange={(event) =>
-                          field.onChange(event.currentTarget.checked)
-                        }
-                        className="mt-1 h-4 w-4 rounded border-border accent-accent"
-                      />
-                    </FormControl>
-                    <div className="space-y-2">
-                      <FormLabel>
-                        Acconsento al trattamento dei dati per essere
-                        ricontattato in merito alla richiesta.
-                      </FormLabel>
+            <div className="space-y-5">
+              <div className="grid gap-5 md:grid-cols-2">
+                <FormField
+                  control={form.control}
+                  name="firstName"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Nome</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Nome" {...field} />
+                      </FormControl>
                       <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="lastName"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Cognome</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Cognome" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+
+              <div className="grid gap-5 md:grid-cols-2">
+                <FormField
+                  control={form.control}
+                  name="email"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Email</FormLabel>
+                      <FormControl>
+                        <Input
+                          type="email"
+                          inputMode="email"
+                          placeholder="nome@email.it"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="phone"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Telefono</FormLabel>
+                      <FormControl>
+                        <Input
+                          type="tel"
+                          inputMode="tel"
+                          placeholder="Facoltativo"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+            </div>
+
+            <div className="space-y-5 border-t-1 pt-5">
+              <div className="grid gap-5 md:grid-cols-2">
+                <FormField
+                  control={form.control}
+                  name="serviceSlug"
+                  render={({ field }) => (
+                    <FormItem>
+                      <div className="relative pr-5">
+                        <FormLabel>Servizio</FormLabel>
+                        <div className="absolute -top-0.5 left-15">
+                          <InlineFieldHint text={contactContent.serviceHelperText} />
+                        </div>
+                      </div>
+                      <FormControl>
+                        <Select
+                          value={field.value || UNSPECIFIED_SERVICE}
+                          onValueChange={(value) =>
+                            field.onChange(
+                              value === UNSPECIFIED_SERVICE ? '' : value
+                            )
+                          }
+                        >
+                          <SelectTrigger aria-label="Servizio">
+                            <SelectValue placeholder="Non specificato" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value={UNSPECIFIED_SERVICE}>
+                              Non specificato
+                            </SelectItem>
+                            {services.map((service) => (
+                              <SelectItem key={service.slug} value={service.slug}>
+                                {service.title}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="expertiseSlug"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Area specifica / Expertise</FormLabel>
+                      <FormControl>
+                        <Select
+                          value={field.value || UNSPECIFIED_EXPERTISE}
+                          onValueChange={(value) =>
+                            field.onChange(
+                              value === UNSPECIFIED_EXPERTISE ? '' : value
+                            )
+                          }
+                          disabled={!selectedService}
+                        >
+                          <SelectTrigger aria-label="Area specifica / Expertise">
+                            <SelectValue placeholder="Selezioni se desidera" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value={UNSPECIFIED_EXPERTISE}>
+                              Selezioni se desidera
+                            </SelectItem>
+                            {expertiseOptions.map((expertise) => (
+                              <SelectItem
+                                key={expertise.slug}
+                                value={expertise.slug}
+                              >
+                                {expertise.title}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+
+              <FormField
+                control={form.control}
+                name="message"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Messaggio</FormLabel>
+                    <FormControl>
+                      <Textarea
+                        placeholder="Descriva brevemente la sua richiesta."
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="privacyAccepted"
+                render={({ field }) => (
+                  <FormItem className="rounded-2xl border border-border/70 bg-primary/[0.03] p-4">
+                    <div className="flex items-start gap-3">
+                      <FormControl>
+                        <input
+                          type="checkbox"
+                          checked={field.value}
+                          onChange={(event) =>
+                            field.onChange(event.currentTarget.checked)
+                          }
+                          className="mt-0.5 h-4 w-4 shrink-0 rounded border-border accent-accent"
+                        />
+                      </FormControl>
+                      <div className="space-y-2">
+                        <FormLabel className="leading-relaxed">
+                          Acconsento al trattamento dei dati per essere
+                          ricontattato in merito alla richiesta.
+                        </FormLabel>
+                        <FormMessage />
+                      </div>
                     </div>
-                  </div>
-                </FormItem>
-              )}
-            />
+                  </FormItem>
+                )}
+              />
+            </div>
 
             <div className="flex flex-col gap-4 border-t border-border/70 pt-5">
               <p className="font-sans text-sm leading-relaxed text-muted-foreground">
                 {contactContent.formPrivacyNote}
               </p>
-              <div className="flex flex-wrap items-center justify-between gap-4">
+              <div className="flex flex-wrap items-center justify-end gap-4">
                 <Button
                   type="submit"
                   size="lg"
-                  className="bg-accent text-accent-foreground hover:bg-accent-dark"
+                  className="bg-accent text-accent-foreground hover:bg-accent-dark hover:translate-x-0.5 cursor-pointer"
                   disabled={form.formState.isSubmitting}
                 >
                   {form.formState.isSubmitting ? (

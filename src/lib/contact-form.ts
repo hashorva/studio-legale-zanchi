@@ -1,10 +1,14 @@
 import { z } from 'zod';
 
 export const contactFormSchema = z.object({
-  fullName: z
+  firstName: z
     .string()
-    .min(2, 'Inserisca nome e cognome.')
-    .max(120, 'Il nome è troppo lungo.'),
+    .min(2, 'Inserisca il nome.')
+    .max(60, 'Il nome è troppo lungo.'),
+  lastName: z
+    .string()
+    .min(2, 'Inserisca il cognome.')
+    .max(60, 'Il cognome è troppo lungo.'),
   email: z.string().email('Inserisca un indirizzo email valido.'),
   phone: z.string().max(40, 'Il numero è troppo lungo.').optional(),
   serviceSlug: z.string().optional(),
@@ -27,7 +31,8 @@ export function getContactFormDefaults(
   defaultExpertiseSlug?: string
 ): ContactFormValues {
   return {
-    fullName: '',
+    firstName: '',
+    lastName: '',
     email: '',
     phone: '',
     serviceSlug: defaultServiceSlug ?? '',
