@@ -234,15 +234,18 @@ function NavLink({
     <Link
       href={href}
       onClick={onClick}
+      aria-current={isActive ? 'page' : undefined}
       className={`
         ${mobile ? 'text-lg py-2' : 'text-sm'}
-        transition-colors
+        inline-flex items-center
+        transition-[color,filter,text-shadow]
+        duration-200
         font-medium
-        focus:outline-none focus:underline focus:underline-offset-4
+        focus:outline-none
         ${
           isActive
-            ? 'text-accent font-semibold' // Active: red + bold
-            : 'text-foreground hover:text-accent' // Inactive: navy → red on hover
+            ? 'text-accent font-semibold drop-shadow-[0_0_10px_rgba(163,12,46,0.22)]'
+            : 'text-foreground hover:text-accent hover:drop-shadow-[0_0_10px_rgba(163,12,46,0.18)]'
         }
       `}
     >

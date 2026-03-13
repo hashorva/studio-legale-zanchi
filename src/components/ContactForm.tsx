@@ -340,7 +340,7 @@ export function ContactForm({
                 control={form.control}
                 name="privacyAccepted"
                 render={({ field }) => (
-                  <FormItem className="rounded-2xl border border-border/70 bg-primary/[0.03] p-4">
+                  <FormItem className="rounded-2xl bg-primary/[0.03] p-4">
                     <div className="flex items-start gap-3">
                       <FormControl>
                         <input
