@@ -17,10 +17,8 @@ export const contactFormSchema = z.object({
     .string()
     .min(20, 'Descriva brevemente la richiesta.')
     .max(4000, 'Il messaggio è troppo lungo.'),
-  privacyAccepted: z.literal(true, {
-    errorMap: () => ({
-      message: 'È necessario accettare il trattamento dei dati per proseguire.',
-    }),
+  privacyAccepted: z.boolean().refine((value) => value, {
+    message: 'È necessario accettare il trattamento dei dati per proseguire.',
   }),
 });
 
