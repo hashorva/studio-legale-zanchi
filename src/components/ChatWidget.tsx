@@ -304,8 +304,8 @@ export default function ChatWidget() {
                 aria-disabled={isLoading}
               />
             </div>
-            <div className="flex items-end justify-between">
-              <p className="px-3 pt-1 text-[10px] leading-4 text-muted-foreground sm:text-[11px]">
+            <div className="flex items-end justify-end sm:justify-between">
+              <p className="hidden sm:block px-3 pt-1 text-[10px] leading-4 text-muted-foreground sm:text-[11px]">
                 Invio con Invio, nuova riga con Maiusc + Invio.
               </p>
               <button
