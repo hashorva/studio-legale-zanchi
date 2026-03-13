@@ -95,7 +95,7 @@ export default function RootLayout({
         <JsonLd />
       </head>
       <body className="font-sans">
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+        <ThemeProvider attribute="class" forcedTheme="light">
           <ChatProvider>
             <CookieConsentProvider>
               <div className="min-h-screen flex flex-col">

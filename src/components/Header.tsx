@@ -6,7 +6,6 @@ import { usePathname } from 'next/navigation'; // ← NEW: reads current URL
 import { Menu, X, Scale } from 'lucide-react';
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import ThemeToggle from './ThemeToggle';
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -141,7 +140,6 @@ export default function Header() {
             <NavLink href="/contatti" currentPath={pathname}>
               Contatti
             </NavLink>
-            <ThemeToggle />
           </nav>
 
           {/* Mobile Menu Toggle — visible on mobile only */}
@@ -202,7 +200,6 @@ export default function Header() {
                 >
                   Contatti
                 </NavLink>
-                <ThemeToggle />
               </motion.nav>
             </motion.div>
           )}
