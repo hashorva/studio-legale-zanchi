@@ -209,7 +209,7 @@ export default function ChatWidget() {
             </div>
 
             {/* Input */}
-            <div className="bg-background bg-primary/5  px-4 py-4 pb-5 sm:px-5">
+            <div className="bg-primary/5  px-4 py-4 pb-5 sm:px-5">
               <div className="rounded-3xl bg-background p-2 shadow-xs">
                 <div className="flex items-end gap-2">
                   <Textarea
